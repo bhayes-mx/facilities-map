@@ -414,6 +414,11 @@ class Component extends DCLogic {
     };
     this.uiStrings = null;   // {key: {en, ja, es, de, nl}} once ui-strings.csv loads
 
+    // ---- deep linking -----------------------------------------------------
+    // ?site=<id> opens that facility's interior page on load; &tab=<name>
+    // picks the starting tab. Works through the WordPress iframe src too.
+    this.pendingLink = this.readDeepLink();
+
     this.pillars = [
       { id:'innovation',   name:'Scientific Innovation',      blurb:'We apply deep scientific knowledge and decades of technical progress to help turn complex ideas into meaningful therapeutic solutions.' },
       { id:'expertise',    name:'Specialized Expertise',      blurb:'Our specialized CDMO capabilities and enabling technologies are backed by the deep modality expertise required to advance novel and complex therapies.' },
@@ -651,6 +656,57 @@ class Component extends DCLogic {
     return out;
   }
 
+  // ---- deep linking -----------------------------------------------------
+  readDeepLink(){
+    if(typeof window === 'undefined') return null;
+    try{
+      const q = new URLSearchParams(window.location.search);
+      // accept ?site=osaka, and #osaka / #site=osaka for hash-only hosts
+      let site = q.get('site') || q.get('facility') || '';
+      let tab  = q.get('tab') || '';
+      const h = (window.location.hash||'').replace(/^#/,'');
+      if(!site && h) site = h.indexOf('site=')===0 ? h.slice(5) : h;
+      site = String(site||'').trim().toLowerCase();
+      return site ? { site, tab:String(tab||'').trim().toLowerCase() } : null;
+    }catch(e){ return null; }
+  }
+
+  tabIndexFromName(name){
+    const map = { overview:0, capabilities:1, caps:1, tour:2, 'virtual-tour':2, video:2, connect:3, contact:3 };
+    return map[name] != null ? map[name] : 0;
+  }
+
+  // Runs after both the globe and the facility data are ready; fires once.
+  applyDeepLink(){
+    const link = this.pendingLink;
+    if(!link || !this.ready || !this.locations || !this.locations.length) return;
+    const loc = this.locations.find(l=>l.id===link.site)
+      || this.locations.find(l=>this.slugify(l.shortName)===link.site);
+    if(!loc){
+      console.warn('[facility-map] deep link ?site='+link.site+' matched no facility — ignoring.');
+      this.pendingLink = null;
+      return;
+    }
+    this.pendingLink = null;
+    this.onOpenLocation(loc.id);
+    if(link.tab){
+      let i = this.tabIndexFromName(link.tab);
+      if(i === 2 && !loc.videoUrl) i = 0;   // no Virtual Tour tab on this site
+      setTimeout(()=>{ if(!this._dead) this.setState({storyStep:i}); }, 60);
+    }
+  }
+
+  // Keep the address bar in step so a visitor can copy a link to what they see.
+  syncUrl(id){
+    if(typeof window === 'undefined' || !window.history || !window.history.replaceState) return;
+    try{
+      const u = new URL(window.location.href);
+      if(id) u.searchParams.set('site', id); else u.searchParams.delete('site');
+      u.searchParams.delete('tab');
+      window.history.replaceState(null, '', u.toString());
+    }catch(e){}
+  }
+
   // ---- i18n helpers -----------------------------------------------------
   csvNameFor(lang){ return (!lang || lang==='en') ? 'facility-data.csv' : 'facility-data.'+lang+'.csv'; }
 
@@ -728,6 +784,7 @@ class Component extends DCLogic {
       this.buildGroups();
       this.forceUpdate();
       if(this.ready) this.buildPins();
+      this.applyDeepLink();
     }catch(err){
       console.warn('[facility-map] facility-data.csv could not be loaded — showing built-in fallback data.', err);
       this.setState({dataWarning:true});
@@ -790,6 +847,7 @@ class Component extends DCLogic {
     this.attachEvents();
     this.loadGeo();
     this.ready = true;
+    this.applyDeepLink();
     this.raf = requestAnimationFrame(this.tick);
     setTimeout(()=>{ this.flyTo([140,18], this.baseScale, ()=>{ this.autoRotate = true; }); }, 420);
   }
@@ -1052,7 +1110,7 @@ class Component extends DCLogic {
   // ---- handlers ----
   onResize = ()=>{ const m = window.innerWidth<=760; if(m!==this.state.isMobile){ this.setState({isMobile:m}); } else { this.applyLayout(); this.setupSize(); } }
   onSelectRegion = (key)=>{ this.setState({filter:key}); const c=this.regionCentroids[key]||this.regionCentroids.all; const z = key==='japan' ? this.baseScale*2.1 : (key==='all' ? this.baseScale : this.baseScale*1.45); this.autoRotate=false; this.flyTo(c, z, ()=>{ if(key==='all') this.autoRotate=true; }); }
-  onOpenLocation = (id)=>{ const loc = this.locations.find(l=>l.id===id); if(!loc) return; this.closePopover(); this.autoRotate=false; this.flyTo([loc.lng, loc.lat], this.baseScale*1.7); if(this.state.isMobile) this.setState({sheetOpen:false}); this.setState({activeId:id, storyStep:0, submitted:false, openCap:null}); }
+  onOpenLocation = (id)=>{ const loc = this.locations.find(l=>l.id===id); if(!loc) return; this.syncUrl(id); this.closePopover(); this.autoRotate=false; this.flyTo([loc.lng, loc.lat], this.baseScale*1.7); if(this.state.isMobile) this.setState({sheetOpen:false}); this.setState({activeId:id, storyStep:0, submitted:false, openCap:null}); }
   onOpenGroup = (grp)=>{ if(!grp) return; this.autoRotate=false; this.openGroupKey=grp.key; this.buildPopover(grp); this.popEl.style.display='block'; }
   closePopover = ()=>{ this.openGroupKey=null; if(this.popEl) this.popEl.style.display='none'; }
   buildPopover(grp){ if(!this.popEl) return; this.popEl.innerHTML='';
@@ -1081,7 +1139,7 @@ class Component extends DCLogic {
     proj.rotate(savedR).scale(savedS);
     this.flyTo([137.5,35.8], tScale); }
   onTourFull = ()=>{ const el=this.tourVideoEl; if(!el) return; (el.requestFullscreen||el.webkitRequestFullscreen||el.webkitEnterFullscreen||function(){}).call(el); }
-  onClose = ()=>{ const rot=this.projection?this.projection.rotate():[-137,-37]; this.setState({activeId:null, storyStep:0, submitted:false}); this.autoRotate=true; if(this.projection){ if(this.baseTranslate) this.projection.translate(this.baseTranslate); this.flyTo([-rot[0],-rot[1]], this.baseScale*1.2); } }
+  onClose = ()=>{ this.syncUrl(null); const rot=this.projection?this.projection.rotate():[-137,-37]; this.setState({activeId:null, storyStep:0, submitted:false}); this.autoRotate=true; if(this.projection){ if(this.baseTranslate) this.projection.translate(this.baseTranslate); this.flyTo([-rot[0],-rot[1]], this.baseScale*1.2); } }
   onOverlayClick = ()=>{ this.onClose(); }
   stopProp = (e)=>{ e.stopPropagation(); }
   onNext = ()=>{ this.setState(s=>{ const loc=this.locations.find(l=>l.id===s.activeId); const steps=(loc&&loc.videoUrl)?[0,1,2,3]:[0,1,3]; const i=Math.max(0,steps.indexOf(s.storyStep)); return {storyStep: steps[Math.min(steps.length-1,i+1)]}; }); }
