@@ -8,8 +8,6 @@
 <body>
 <x-dc>
 <helmet>
-  <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
   <style>
     /* Aji Bio-Pharma design tokens — inlined so this page has no _ds/ dependency.
        Font files live in assets/fonts/. */
@@ -95,6 +93,8 @@
       --tracking-tight: -0.01em;
     }
   </style>
+  <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
   <style>
     *{box-sizing:border-box}
     html,body{margin:0;padding:0;height:100%;background:#fff;font-family:var(--font-sans);color:var(--fg1);-webkit-font-smoothing:antialiased}
@@ -124,16 +124,16 @@
       <div style="position:relative;z-index:1">
         <sc-if value="{{ showLogo }}" hint-placeholder-val="{{ true }}"><img src="assets/logo-color.png" alt="Ajinomoto Bio-Pharma Services" style="height:30px;width:auto;display:block;margin-bottom:22px"></sc-if>
         <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
-          <div style="{{ hlOverlineStyle }}">Our Global Network</div>
+          <div style="{{ hlOverlineStyle }}">{{ T.overline }}</div>
           <sc-if value="{{ dataWarning }}" hint-placeholder-val="{{ false }}">
             <span title="facility-data.csv failed to load or parse — the map is showing built-in fallback data. Check the browser console." style="display:inline-flex;align-items:center;gap:6px;padding:3px 9px 3px 7px;border:1px solid rgba(238,28,38,.4);border-radius:999px;background:#FEEBE3;white-space:nowrap;cursor:help">
               <span style="width:7px;height:7px;border-radius:50%;background:var(--aj-red);flex:none"></span>
-              <span style="font:700 9px/1 var(--font-sans);letter-spacing:.09em;text-transform:uppercase;color:var(--aj-red)">Fallback data</span>
+              <span style="font:700 9px/1 var(--font-sans);letter-spacing:.09em;text-transform:uppercase;color:var(--aj-red)">{{ T.fallbackData }}</span>
             </span>
           </sc-if>
         </div>
-        <h1 style="{{ hlHeadingStyle }}">Specialized Expertise and Innovation</h1>
-        <p style="{{ hlBodyStyle }}">Removing barriers, expanding what's possible, and turning novel and complex science into manufacturable reality, sustainably and at scale.&nbsp;</p>
+        <h1 style="{{ hlHeadingStyle }}">{{ T.heading }}</h1>
+        <p style="{{ hlBodyStyle }}">{{ T.body }}</p>
       </div>
     </div>
 
@@ -160,9 +160,9 @@
     </div>
 
     <div style="padding:16px 24px;border-top:1px solid var(--border);display:flex;gap:20px;flex:none;background:#fff">
-      <div><div style="font:700 18px/1 var(--font-sans);color:var(--fg1)">7</div><div style="font:var(--caption);color:var(--fg3);letter-spacing:.08em;text-transform:uppercase;margin-top:3px">Sites</div></div>
-      <div><div style="font:700 18px/1 var(--font-sans);color:var(--fg1)">4</div><div style="font:var(--caption);color:var(--fg3);letter-spacing:.08em;text-transform:uppercase;margin-top:3px">Countries</div></div>
-      <div><div style="font:700 18px/1 var(--font-sans);color:var(--fg1)">2,000+</div><div style="font:var(--caption);color:var(--fg3);letter-spacing:.08em;text-transform:uppercase;margin-top:3px">EMPLOYEES</div></div>
+      <div><div style="font:700 18px/1 var(--font-sans);color:var(--fg1)">7</div><div style="font:var(--caption);color:var(--fg3);letter-spacing:.08em;text-transform:uppercase;margin-top:3px">{{ T.statSites }}</div></div>
+      <div><div style="font:700 18px/1 var(--font-sans);color:var(--fg1)">4</div><div style="font:var(--caption);color:var(--fg3);letter-spacing:.08em;text-transform:uppercase;margin-top:3px">{{ T.statCountries }}</div></div>
+      <div><div style="font:700 18px/1 var(--font-sans);color:var(--fg1)">2,000+</div><div style="font:var(--caption);color:var(--fg3);letter-spacing:.08em;text-transform:uppercase;margin-top:3px">{{ T.statEmployees }}</div></div>
     </div>
   </aside>
 
@@ -190,16 +190,30 @@
     </sc-if>
 
     <div style="position:absolute;top:26px;left:0;right:0;text-align:center;z-index:4;pointer-events:none">
-      <div style="font: var(--overline); letter-spacing: .22em; text-transform: uppercase; color: var(--aj-slate); opacity: .8; font-size: 20px">Unlock Innovation. Unleash Potential.</div>
+      <div style="font: var(--overline); letter-spacing: .22em; text-transform: uppercase; color: var(--aj-slate); opacity: .8; font-size: 20px">{{ T.tagline }}</div>
     </div>
 
     <div style="position:absolute;right:22px;bottom:22px;z-index:5;display:flex;flex-direction:column;gap:9px;align-items:flex-end">
-      <button onClick="{{ onZoomIn }}" aria-label="Zoom in" style="width:42px;height:42px;border-radius:50%;background:#fff;border:1px solid var(--border);box-shadow:var(--shadow-sm);cursor:pointer;font:400 22px/1 var(--font-sans);color:var(--fg1)" style-hover="box-shadow:var(--shadow-md)">+</button>
-      <button onClick="{{ onZoomOut }}" aria-label="Zoom out" style="width:42px;height:42px;border-radius:50%;background:#fff;border:1px solid var(--border);box-shadow:var(--shadow-sm);cursor:pointer;font:400 22px/1 var(--font-sans);color:var(--fg1)" style-hover="box-shadow:var(--shadow-md)">−</button>
-      <button type="button" onClick="{{ onReset }}" style="margin-top:5px;display:inline-flex;align-items:center;gap:11px;padding:4px 4px 4px 15px;border-radius:999px;background:#fff;border:1.5px solid var(--fg1);box-shadow:var(--shadow-sm);cursor:pointer;font:700 10.5px/1 var(--font-sans);letter-spacing:.06em;text-transform:uppercase;color:var(--fg1);transition:transform .18s var(--ease-out),box-shadow .18s var(--ease-out)" style-hover="box-shadow:var(--shadow-md);transform:translateY(-1px)"><span>Reset Globe</span><span style="width:29px;height:29px;border-radius:50%;background:var(--aj-red);display:flex;align-items:center;justify-content:center;flex:none"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M4 12h13.5M12 5.5l6.5 6.5-6.5 6.5" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"></path></svg></span></button>
+      <div style="position:relative;margin-bottom:2px">
+        <button onClick="{{ onToggleLang }}" aria-label="{{ T.language }}" style="display:inline-flex;align-items:center;gap:9px;padding:8px 13px;border-radius:999px;background:#fff;border:1px solid var(--border);box-shadow:var(--shadow-sm);cursor:pointer;font:700 11px/1 var(--font-sans);letter-spacing:.05em;color:var(--fg1);transition:box-shadow .18s var(--ease-out)" style-hover="box-shadow:var(--shadow-md)">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.9"></circle><path d="M3.2 9.5h17.6M3.2 14.5h17.6M12 3c2.6 2.7 2.6 15.3 0 18M12 3c-2.6 2.7-2.6 15.3 0 18" stroke="currentColor" stroke-width="1.4"></path></svg>
+          <span>{{ activeLangLabel }}</span>
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 15l6-6 6 6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+        </button>
+        <sc-if value="{{ langOpen }}" hint-placeholder-val="{{ false }}">
+          <div style="position:absolute;bottom:calc(100% + 7px);right:0;min-width:152px;background:#fff;border:1px solid var(--border);border-radius:var(--radius-sm);box-shadow:var(--shadow-lg);overflow:hidden;animation:ajup .2s var(--ease-out)">
+            <sc-for list="{{ langs }}" as="lg" hint-placeholder-count="5">
+              <button onClick="{{ lg.onClick }}" style="{{ lg.style }}">{{ lg.label }}</button>
+            </sc-for>
+          </div>
+        </sc-if>
+      </div>
+      <button onClick="{{ onZoomIn }}" aria-label="{{ T.zoomIn }}" style="width:42px;height:42px;border-radius:50%;background:#fff;border:1px solid var(--border);box-shadow:var(--shadow-sm);cursor:pointer;font:400 22px/1 var(--font-sans);color:var(--fg1)" style-hover="box-shadow:var(--shadow-md)">+</button>
+      <button onClick="{{ onZoomOut }}" aria-label="{{ T.zoomOut }}" style="width:42px;height:42px;border-radius:50%;background:#fff;border:1px solid var(--border);box-shadow:var(--shadow-sm);cursor:pointer;font:400 22px/1 var(--font-sans);color:var(--fg1)" style-hover="box-shadow:var(--shadow-md)">−</button>
+      <button type="button" onClick="{{ onReset }}" style="margin-top:5px;display:inline-flex;align-items:center;gap:11px;padding:4px 4px 4px 15px;border-radius:999px;background:#fff;border:1.5px solid var(--fg1);box-shadow:var(--shadow-sm);cursor:pointer;font:700 10.5px/1 var(--font-sans);letter-spacing:.06em;text-transform:uppercase;color:var(--fg1);transition:transform .18s var(--ease-out),box-shadow .18s var(--ease-out)" style-hover="box-shadow:var(--shadow-md);transform:translateY(-1px)"><span>{{ T.resetGlobe }}</span><span style="width:29px;height:29px;border-radius:50%;background:var(--aj-red);display:flex;align-items:center;justify-content:center;flex:none"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M4 12h13.5M12 5.5l6.5 6.5-6.5 6.5" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"></path></svg></span></button>
     </div>
 
-    <div style="{{ hintStyle }}">Drag to spin · Scroll to zoom</div>
+    <div style="{{ hintStyle }}">{{ T.dragHint }}</div>
   </main>
 
   <!-- ============ STORY MODAL ============ -->
@@ -211,7 +225,7 @@
         <div style="position:relative;height:210px;flex:none;overflow:hidden">
           {{ active.heroImg }}
           <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(23,22,21,.12) 0%,rgba(23,22,21,.05) 42%,rgba(23,22,21,.78) 100%)"></div>
-          <button onClick="{{ onClose }}" aria-label="Close" style="position:absolute;top:16px;right:16px;width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.94);border:0;cursor:pointer;font:400 17px/1 var(--font-sans);color:var(--fg1);display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-sm)" style-hover="background:#fff">✕</button>
+          <button onClick="{{ onClose }}" aria-label="{{ T.close }}" style="position:absolute;top:16px;right:16px;width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.94);border:0;cursor:pointer;font:400 17px/1 var(--font-sans);color:var(--fg1);display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-sm)" style-hover="background:#fff">✕</button>
           <sc-if value="{{ active.hasSiteName }}" hint-placeholder-val="{{ true }}">
             <div style="position:absolute;left:26px;right:26px;bottom:18px">
               <div style="font:var(--overline);letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.86)">{{ active.city }}</div>
@@ -241,9 +255,9 @@
               <h3 style="font: var(--display-2); font-size: 28px; line-height: 1.1; color: var(--fg1); margin: 10px 0 16px; letter-spacing: var(--tracking-tight); font-family: kaisei docal">{{ active.headline }}</h3>
               <p style="font: var(--body-lg); color: var(--fg2); margin: 0 0 24px; font-size: 18px">{{ active.overview }}</p>
               <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:22px">
-                <div style="flex:1;min-width:120px;background:var(--aj-blush);border-radius:var(--radius-md);padding:16px 18px"><div style="font:400 30px/1 var(--font-display);color:var(--aj-red)">{{ active.employees }}</div><div style="font:var(--caption);color:var(--fg2);letter-spacing:.08em;text-transform:uppercase;margin-top:7px">Employees</div></div>
-                <div style="flex:1;min-width:120px;background:var(--aj-blush);border-radius:var(--radius-md);padding:16px 18px"><div style="font:400 30px/1 var(--font-display);color:var(--aj-red)">{{ active.capCount }}</div><div style="font:var(--caption);color:var(--fg2);letter-spacing:.08em;text-transform:uppercase;margin-top:7px">Capabilities</div></div>
-                <div style="flex:1;min-width:120px;background:var(--aj-blush);border-radius:var(--radius-md);padding:16px 18px"><div style="font:400 30px/1 var(--font-display);color:var(--aj-red)">{{ active.focusShort }}</div><div style="font:var(--caption);color:var(--fg2);letter-spacing:.08em;text-transform:uppercase;margin-top:7px">Core modality</div></div>
+                <div style="flex:1;min-width:120px;background:var(--aj-blush);border-radius:var(--radius-md);padding:16px 18px"><div style="font:400 30px/1 var(--font-display);color:var(--aj-red)">{{ active.employees }}</div><div style="font:var(--caption);color:var(--fg2);letter-spacing:.08em;text-transform:uppercase;margin-top:7px">{{ T.cardEmployees }}</div></div>
+                <div style="flex:1;min-width:120px;background:var(--aj-blush);border-radius:var(--radius-md);padding:16px 18px"><div style="font:400 30px/1 var(--font-display);color:var(--aj-red)">{{ active.capCount }}</div><div style="font:var(--caption);color:var(--fg2);letter-spacing:.08em;text-transform:uppercase;margin-top:7px">{{ T.cardCapabilities }}</div></div>
+                <div style="flex:1;min-width:120px;background:var(--aj-blush);border-radius:var(--radius-md);padding:16px 18px"><div style="font:400 30px/1 var(--font-display);color:var(--aj-red)">{{ active.focusShort }}</div><div style="font:var(--caption);color:var(--fg2);letter-spacing:.08em;text-transform:uppercase;margin-top:7px">{{ T.cardCoreModality }}</div></div>
               </div>
               <div style="display:flex;align-items:flex-start;gap:10px;padding-top:18px;border-top:1px solid var(--border)">
                 <span style="width:9px;height:9px;border-radius:50%;background:var(--aj-red);margin-top:5px;flex:none"></span>
@@ -254,8 +268,8 @@
 
           <sc-if value="{{ showCaps }}" hint-placeholder-val="{{ false }}">
             <div style="animation:ajup .34s var(--ease-out)">
-              <div style="font:var(--overline);letter-spacing:var(--tracking-overline);text-transform:uppercase;color:var(--aj-red)">MAKING A DIFFERENCE</div>
-              <h3 style="font: 400 24px/1.2 var(--font-display); letter-spacing: -.01em; color: var(--fg1); margin: 8px 0 20px; font-size: 28px; font-family: kaisei docal">Research &amp; Capabilities</h3>
+              <div style="font:var(--overline);letter-spacing:var(--tracking-overline);text-transform:uppercase;color:var(--aj-red)">{{ T.capsOverline }}</div>
+              <h3 style="font: 400 24px/1.2 var(--font-display); letter-spacing: -.01em; color: var(--fg1); margin: 8px 0 20px; font-size: 28px; font-family: kaisei docal">{{ T.capsHeading }}</h3>
               <div style="display:flex;flex-direction:column;gap:0;border-bottom:1px solid var(--border)">
                 <sc-for list="{{ active.capabilities }}" as="cap" hint-placeholder-count="5">
                   <div style="border-top:1px solid var(--border);background:none">
@@ -281,8 +295,8 @@
 
           <sc-if value="{{ showTour }}" hint-placeholder-val="{{ false }}">
             <div style="animation:ajup .34s var(--ease-out)">
-              <div style="font:var(--overline);letter-spacing:var(--tracking-overline);text-transform:uppercase;color:var(--aj-red)">VIEW INSIDE</div>
-              <h3 style="font: var(--h2); color: var(--fg1); margin: 8px 0 18px; font-size: 28px; font-weight: 400; font-family: kaisei docal">Virtual Tour</h3>
+              <div style="font:var(--overline);letter-spacing:var(--tracking-overline);text-transform:uppercase;color:var(--aj-red)">{{ T.tourOverline }}</div>
+              <h3 style="font: var(--h2); color: var(--fg1); margin: 8px 0 18px; font-size: 28px; font-weight: 400; font-family: kaisei docal">{{ T.tourHeading }}</h3>
               <div style="position:relative;width:100%;padding-top:56.25%;border-radius:var(--radius-md);overflow:hidden;background:#000;box-shadow:var(--shadow-md)">
                 <sc-if value="{{ active.isFileVideo }}" hint-placeholder-val="{{ false }}">
                   <video ref="{{ tourVideoRef }}" src="{{ active.videoUrl }}" controls="controls" playsinline="playsinline" style="position:absolute;inset:0;width:100%;height:100%;border:0;background:#000"></video>
@@ -291,7 +305,7 @@
                   <iframe ref="{{ tourVideoRef }}" src="{{ active.videoUrl }}" allow="autoplay; fullscreen; picture-in-picture" title="Virtual tour" style="position:absolute;inset:0;width:100%;height:100%;border:0"></iframe>
                 </sc-if>
               </div>
-              <button onClick="{{ onTourFull }}" style="margin-top:16px;display:inline-flex;align-items:center;gap:12px;padding:7px 7px 7px 20px;border-radius:999px;background:var(--aj-blush);border:0;cursor:pointer;font:700 12px/1 var(--font-sans);letter-spacing:.08em;text-transform:uppercase;color:var(--fg1);transition:transform .18s var(--ease-out)" style-hover="transform:translateY(-1px)"><span>Play fullscreen</span><span style="width:32px;height:32px;border-radius:50%;background:var(--aj-ink);color:#fff;display:flex;align-items:center;justify-content:center;flex:none"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M9 4H4v5M15 4h5v5M15 20h5v-5M9 20H4v-5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg></span></button>
+              <button onClick="{{ onTourFull }}" style="margin-top:16px;display:inline-flex;align-items:center;gap:12px;padding:7px 7px 7px 20px;border-radius:999px;background:var(--aj-blush);border:0;cursor:pointer;font:700 12px/1 var(--font-sans);letter-spacing:.08em;text-transform:uppercase;color:var(--fg1);transition:transform .18s var(--ease-out)" style-hover="transform:translateY(-1px)"><span>{{ T.tourFullscreen }}</span><span style="width:32px;height:32px;border-radius:50%;background:var(--aj-ink);color:#fff;display:flex;align-items:center;justify-content:center;flex:none"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M9 4H4v5M15 4h5v5M15 20h5v-5M9 20H4v-5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg></span></button>
             </div>
           </sc-if>
 
@@ -299,28 +313,28 @@
             <div style="animation:ajup .34s var(--ease-out)">
               <sc-if value="{{ notSubmitted }}" hint-placeholder-val="{{ true }}">
                 <div>
-                  <div style="font:var(--overline);letter-spacing:var(--tracking-overline);text-transform:uppercase;color:var(--aj-red)">FORGE AHEAD</div>
+                  <div style="font:var(--overline);letter-spacing:var(--tracking-overline);text-transform:uppercase;color:var(--aj-red)">{{ T.connectOverline }}</div>
                   <h3 style="font: var(--display-2); font-size: 28px; line-height: 1.12; color: var(--fg1); margin: 10px 0 8px; letter-spacing: var(--tracking-tight); font-family: kaisei docal">{{ active.contactHeadline }}</h3>
                   
-                  <p style="font:var(--body-sm);color:var(--fg2);margin:0 0 22px">Tell us about your program and our team will be in touch.</p><form onSubmit="{{ onSubmit }}" style="display:flex;flex-direction:column;gap:15px">
-                    <label style="display:block"><span style="font:var(--caption);color:var(--fg2);letter-spacing:.08em;text-transform:uppercase;display:block;margin-bottom:6px">Full name</span><input type="text" required="required" style="width:100%;padding:12px 14px;border:1px solid var(--border-strong);border-radius:var(--radius-sm);font:var(--body);color:var(--fg1);background:#fff;outline:none" style-focus="border-color:var(--aj-red)"></label>
-                    <label style="display:block"><span style="font:var(--caption);color:var(--fg2);letter-spacing:.08em;text-transform:uppercase;display:block;margin-bottom:6px">Work email</span><input type="email" required="required" style="width:100%;padding:12px 14px;border:1px solid var(--border-strong);border-radius:var(--radius-sm);font:var(--body);color:var(--fg1);background:#fff;outline:none" style-focus="border-color:var(--aj-red)"></label>
-                    <label style="display:block"><span style="font:var(--caption);color:var(--fg2);letter-spacing:.08em;text-transform:uppercase;display:block;margin-bottom:6px">Service of interest</span>
+                  <p style="font:var(--body-sm);color:var(--fg2);margin:0 0 22px">{{ T.connectIntro }}</p><form onSubmit="{{ onSubmit }}" style="display:flex;flex-direction:column;gap:15px">
+                    <label style="display:block"><span style="font:var(--caption);color:var(--fg2);letter-spacing:.08em;text-transform:uppercase;display:block;margin-bottom:6px">{{ T.fieldName }}</span><input type="text" required="required" style="width:100%;padding:12px 14px;border:1px solid var(--border-strong);border-radius:var(--radius-sm);font:var(--body);color:var(--fg1);background:#fff;outline:none" style-focus="border-color:var(--aj-red)"></label>
+                    <label style="display:block"><span style="font:var(--caption);color:var(--fg2);letter-spacing:.08em;text-transform:uppercase;display:block;margin-bottom:6px">{{ T.fieldEmail }}</span><input type="email" required="required" style="width:100%;padding:12px 14px;border:1px solid var(--border-strong);border-radius:var(--radius-sm);font:var(--body);color:var(--fg1);background:#fff;outline:none" style-focus="border-color:var(--aj-red)"></label>
+                    <label style="display:block"><span style="font:var(--caption);color:var(--fg2);letter-spacing:.08em;text-transform:uppercase;display:block;margin-bottom:6px">{{ T.fieldService }}</span>
                       <select style="width:100%;padding:12px 14px;border:1px solid var(--border-strong);border-radius:var(--radius-sm);font:var(--body);color:var(--fg1);background:#fff;outline:none;appearance:none" style-focus="border-color:var(--aj-red)">
                         <sc-for list="{{ active.serviceOptions }}" as="opt" hint-placeholder-count="4"><option>{{ opt }}</option></sc-for>
                       </select>
                     </label>
-                    <label style="display:block"><span style="font:var(--caption);color:var(--fg2);letter-spacing:.08em;text-transform:uppercase;display:block;margin-bottom:6px">How can we help?</span><textarea rows="3" style="width:100%;padding:12px 14px;border:1px solid var(--border-strong);border-radius:var(--radius-sm);font:var(--body);color:var(--fg1);background:#fff;outline:none;resize:vertical;font-family:var(--font-sans)" style-focus="border-color:var(--aj-red)"></textarea></label>
-                    <button type="submit" style="display:inline-flex;align-items:center;justify-content:space-between;gap:14px;padding:8px 8px 8px 22px;border-radius:999px;background:var(--aj-red);border:0;cursor:pointer;font:700 14px/1 var(--font-sans);letter-spacing:.08em;text-transform:uppercase;color:#fff;box-shadow:var(--shadow-red);transition:transform .18s var(--ease-out)" style-hover="transform:translateY(-1px)"><span>Send inquiry</span><span style="width:38px;height:38px;border-radius:50%;background:#fff;color:var(--aj-red);display:flex;align-items:center;justify-content:center;font-size:16px">→</span></button>
+                    <label style="display:block"><span style="font:var(--caption);color:var(--fg2);letter-spacing:.08em;text-transform:uppercase;display:block;margin-bottom:6px">{{ T.fieldMessage }}</span><textarea rows="3" style="width:100%;padding:12px 14px;border:1px solid var(--border-strong);border-radius:var(--radius-sm);font:var(--body);color:var(--fg1);background:#fff;outline:none;resize:vertical;font-family:var(--font-sans)" style-focus="border-color:var(--aj-red)"></textarea></label>
+                    <button type="submit" style="display:inline-flex;align-items:center;justify-content:space-between;gap:14px;padding:8px 8px 8px 22px;border-radius:999px;background:var(--aj-red);border:0;cursor:pointer;font:700 14px/1 var(--font-sans);letter-spacing:.08em;text-transform:uppercase;color:#fff;box-shadow:var(--shadow-red);transition:transform .18s var(--ease-out)" style-hover="transform:translateY(-1px)"><span>{{ T.submit }}</span><span style="width:38px;height:38px;border-radius:50%;background:#fff;color:var(--aj-red);display:flex;align-items:center;justify-content:center;font-size:16px">→</span></button>
                   </form>
                 </div>
               </sc-if>
               <sc-if value="{{ submitted }}" hint-placeholder-val="{{ false }}">
                 <div style="text-align:center;padding:40px 10px;animation:ajup .34s var(--ease-out)">
                   <span style="display:inline-flex;width:64px;height:64px;border-radius:50%;background:var(--aj-red);align-items:center;justify-content:center;box-shadow:var(--shadow-red)"><svg width="30" height="30" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
-                  <h3 style="font:var(--h1);color:var(--fg1);margin:20px 0 8px">Thank you.</h3>
-                  <p style="font:var(--body);color:var(--fg2);margin:0 auto;max-width:340px">Your inquiry has reached our {{ active.city }} team. We'll respond within two business days.</p>
-                  <button onClick="{{ onClose }}" style="margin-top:24px;display:inline-flex;align-items:center;gap:12px;padding:8px 8px 8px 20px;border-radius:999px;background:#fff;border:1.5px solid var(--fg1);cursor:pointer;font:700 13px/1 var(--font-sans);letter-spacing:.08em;text-transform:uppercase;color:var(--fg1)">Back to the map<span style="width:34px;height:34px;border-radius:50%;background:var(--fg1);color:#fff;display:flex;align-items:center;justify-content:center">→</span></button>
+                  <h3 style="font:var(--h1);color:var(--fg1);margin:20px 0 8px">{{ T.thanksHeading }}</h3>
+                  <p style="font:var(--body);color:var(--fg2);margin:0 auto;max-width:340px">{{ thanksBody }}</p>
+                  <button onClick="{{ onClose }}" style="margin-top:24px;display:inline-flex;align-items:center;gap:12px;padding:8px 8px 8px 20px;border-radius:999px;background:#fff;border:1.5px solid var(--fg1);cursor:pointer;font:700 13px/1 var(--font-sans);letter-spacing:.08em;text-transform:uppercase;color:var(--fg1)">{{ T.backToMap }}<span style="width:34px;height:34px;border-radius:50%;background:var(--fg1);color:#fff;display:flex;align-items:center;justify-content:center">→</span></button>
                 </div>
               </sc-if>
             </div>
@@ -359,8 +373,46 @@
 class Component extends DCLogic {
   constructor(props){
     super(props);
-    this.state = { isMobile: (typeof window!=='undefined' && window.innerWidth<=760), sheetOpen:false, activeId:null, storyStep:0, filter:'all', submitted:false, openCap:null, dataWarning:false };
+    this.state = { isMobile: (typeof window!=='undefined' && window.innerWidth<=760), sheetOpen:false, activeId:null, storyStep:0, filter:'all', submitted:false, openCap:null, dataWarning:false, lang:'en', langOpen:false, uiWarning:false };
     this.hoverId = null;
+
+    // ---- i18n -------------------------------------------------------------
+    // Always starts in English. Chrome copy comes from ui-strings.csv (one row
+    // per key, one column per language); facility copy comes from
+    // facility-data.<code>.csv. Both fall back to English if missing.
+    this.LANGS = [
+      { code:'en', label:'English'    },
+      { code:'ja', label:'日本語'      },
+      { code:'es', label:'Español'    },
+      { code:'de', label:'Deutsch'    },
+      { code:'nl', label:'Nederlands' },
+    ];
+    // Baked-in English so the app is fully readable even if ui-strings.csv fails.
+    this.UI_EN = {
+      overline:'Our Global Network',
+      heading:'Specialized Expertise and Innovation',
+      body:"Removing barriers, expanding what's possible, and turning novel and complex science into manufacturable reality, sustainably and at scale.",
+      fallbackData:'Fallback data',
+      statSites:'Sites', statCountries:'Countries', statEmployees:'Employees',
+      tagline:'Unlock Innovation. Unleash Potential.',
+      resetGlobe:'Reset Globe', dragHint:'Drag to spin · Scroll to zoom',
+      zoomIn:'Zoom in', zoomOut:'Zoom out', close:'Close', language:'Language',
+      regionAll:'All', regionEurope:'Europe', regionJapan:'Japan', regionIndia:'India', regionAmericas:'USA',
+      tabOverview:'Overview', tabCapabilities:'Capabilities', tabTour:'Virtual Tour', tabConnect:'Connect',
+      cardEmployees:'Employees', cardCapabilities:'Capabilities', cardCoreModality:'Core modality',
+      capsOverline:'MAKING A DIFFERENCE', capsHeading:'Research & Capabilities',
+      tourOverline:'VIEW INSIDE', tourHeading:'Virtual Tour', tourFullscreen:'Play fullscreen',
+      connectOverline:'FORGE AHEAD',
+      connectIntro:'Tell us about your program and our team will be in touch.',
+      fieldName:'Full name', fieldEmail:'Work email', fieldService:'Service of interest',
+      fieldMessage:'How can we help?', generalInquiry:'General inquiry', submit:'Send inquiry',
+      thanksHeading:'Thank you.',
+      thanksBody:"Your inquiry has reached our {city} team. We'll respond within two business days.",
+      backToMap:'Back to the map', step:'Step {n} / {total}', next:'Next: {tab}',
+      clusterLabel:'Japan · {n} services', servicesHere:'{n} services here',
+      servicesAtLocation:'Services at this location',
+    };
+    this.uiStrings = null;   // {key: {en, ja, es, de, nl}} once ui-strings.csv loads
 
     this.pillars = [
       { id:'innovation',   name:'Scientific Innovation',      blurb:'We apply deep scientific knowledge and decades of technical progress to help turn complex ideas into meaningful therapeutic solutions.' },
@@ -560,7 +612,7 @@ class Component extends DCLogic {
         console.warn('[facility-map] row '+(r+1)+' skipped — needs Short Name + numeric Latitude/Longitude');
         continue;
       }
-      let id = get('id') || this.slugify(shortName);
+      let id = get('id') || this.slugify(shortName) || ('site-'+r);
       while(seen[id]) id = id+'-2';
       seen[id] = 1;
 
@@ -599,9 +651,76 @@ class Component extends DCLogic {
     return out;
   }
 
-  async loadFacilityData(){
+  // ---- i18n helpers -----------------------------------------------------
+  csvNameFor(lang){ return (!lang || lang==='en') ? 'facility-data.csv' : 'facility-data.'+lang+'.csv'; }
+
+  // Resolve one key for the active language, English-first fallback, then
+  // substitute {placeholders}.
+  t(key, vars){
+    const lang = this.state.lang || 'en';
+    const row  = this.uiStrings && this.uiStrings[key];
+    let out = (row && row[lang]) || (row && row.en) || this.UI_EN[key] || key;
+    if(vars) for(const k in vars) out = out.split('{'+k+'}').join(vars[k]);
+    return out;
+  }
+
+  // Whole string table for the active language — handed to the template in one go.
+  strings(){
+    const out = {};
+    for(const k in this.UI_EN) out[k] = this.t(k);
+    return out;
+  }
+
+  async loadUIStrings(){
     try{
-      const res = await fetch('facility-data.csv', {cache:'no-cache'});
+      const res = await fetch('ui-strings.csv', {cache:'no-cache'});
+      if(!res.ok) throw new Error('HTTP '+res.status);
+      const rows = this.parseCSV(await res.text());
+      if(!rows.length) throw new Error('empty ui-strings.csv');
+      // find the column for each language by header name, tolerant of case/spacing
+      const heads = rows[0].map(h=>String(h||'').trim().toLowerCase());
+      const colFor = {
+        en: heads.indexOf('english'), ja: heads.indexOf('japanese'),
+        es: heads.indexOf('spanish'), de: heads.indexOf('german'),
+        nl: heads.indexOf('dutch'),
+      };
+      if(colFor.en < 0) throw new Error('ui-strings.csv needs an "English" column');
+      const table = {};
+      for(let r=1;r<rows.length;r++){
+        const key = String(rows[r][0]||'').trim();
+        if(!key) continue;
+        const entry = {};
+        for(const code in colFor){
+          const i = colFor[code];
+          const v = i>=0 && rows[r][i]!=null ? String(rows[r][i]).trim() : '';
+          if(v) entry[code] = v;
+        }
+        table[key] = entry;
+      }
+      if(this._dead) return;
+      this.uiStrings = table;
+      this.forceUpdate();
+    }catch(err){
+      console.warn('[facility-map] ui-strings.csv could not be loaded — interface stays in English.', err);
+      this.setState({uiWarning:true});
+    }
+  }
+
+  onSelectLang = (code)=>{
+    if(code === this.state.lang){ this.setState({langOpen:false}); return; }
+    this.setState({lang:code, langOpen:false}, ()=>{ this.loadFacilityData(code); });
+  }
+  onToggleLang = ()=>{ this.setState(s=>({langOpen:!s.langOpen})); }
+
+  async loadFacilityData(lang){
+    const code = lang || this.state.lang || 'en';
+    try{
+      let res = await fetch(this.csvNameFor(code), {cache:'no-cache'});
+      // a missing translated sheet is not an error — fall back to the English one
+      if(!res.ok && code!=='en'){
+        console.warn('[facility-map] '+this.csvNameFor(code)+' not found — using English facility data.');
+        res = await fetch('facility-data.csv', {cache:'no-cache'});
+      }
       if(!res.ok) throw new Error('HTTP '+res.status);
       const locs = this.rowsToLocations(this.parseCSV(await res.text()));
       if(this._dead) return;
@@ -617,7 +736,8 @@ class Component extends DCLogic {
 
   componentDidMount(){
     window.addEventListener('resize', this.onResize);
-    this.loadFacilityData();
+    this.loadUIStrings();
+    this.loadFacilityData('en');
   }
   componentWillUnmount(){
     this._dead = true;
@@ -760,7 +880,7 @@ class Component extends DCLogic {
       wrap.style.cssText = 'position:absolute;left:0;top:0;width:0;height:0;pointer-events:none';
       const {node, ring, head} = mkNode(multi?20:15, multi, isRep?String(grp.members.length):'');
       const label = document.createElement('span');
-      label.textContent = multi ? (grp.members.length+' services here') : loc.shortName;
+      label.textContent = multi ? this.t('servicesHere', {n:grp.members.length}) : loc.shortName;
       label.style.cssText = 'position:absolute;left:16px;top:0;transform:translateY(-50%) translateX(-4px);white-space:nowrap;font:700 12px/1 var(--font-sans);letter-spacing:.02em;color:var(--fg1);background:#fff;padding:6px 11px;border-radius:999px;box-shadow:0 4px 14px rgba(33,33,32,.16);opacity:0;transition:opacity .25s,transform .25s;pointer-events:none';
       node.addEventListener('click',(e)=>{ e.stopPropagation(); if(multi){ this.onOpenGroup(grp); } else { this.onOpenLocation(loc.id); } });
       node.addEventListener('mouseenter',()=>{ this.hoverId = loc.id; });
@@ -784,7 +904,7 @@ class Component extends DCLogic {
     const cring = document.createElement('span'); cring.style.cssText='position:absolute;left:50%;top:50%;width:34px;height:34px;border-radius:50%;background:rgba(238,28,38,.3);transform:translate(-50%,-50%);animation:ajpulse 2.6s ease-out infinite';
     const chead = document.createElement('span'); chead.style.cssText='position:absolute;left:50%;top:50%;width:34px;height:34px;border-radius:50%;background:var(--aj-red);border:2.5px solid #fff;box-shadow:0 4px 12px rgba(238,28,38,.5);transform:translate(-50%,-50%);display:flex;align-items:center;justify-content:center;color:#fff;font:700 15px/1 var(--font-sans)'; chead.textContent='3';
     cNode.appendChild(cring); cNode.appendChild(chead);
-    const clabel = document.createElement('span'); clabel.textContent='Japan · 4 services';
+    const clabel = document.createElement('span'); clabel.textContent=this.t('clusterLabel', {n:4});
     clabel.style.cssText='position:absolute;left:26px;top:0;transform:translateY(-50%);white-space:nowrap;font:700 12px/1 var(--font-sans);color:var(--fg1);background:#fff;padding:6px 11px;border-radius:999px;box-shadow:0 4px 14px rgba(33,33,32,.16)';
     cNode.addEventListener('click',(e)=>{ e.stopPropagation(); this.onCluster(); });
     cwrap.appendChild(cNode); cwrap.appendChild(clabel);
@@ -918,7 +1038,7 @@ class Component extends DCLogic {
       const cx=sx/jp.length, cy=sy/jp.length;
       const jpAll = this.locations.filter(l=>l.region==='japan').length;
       if(this.clusterHead) this.clusterHead.textContent = String(jpAll);
-      if(this.clusterLabel) this.clusterLabel.textContent = 'Japan · '+jpAll+' services';
+      if(this.clusterLabel) this.clusterLabel.textContent = this.t('clusterLabel', {n:jpAll});
       this.clusterEl.style.left = cx+'px'; this.clusterEl.style.top = cy+'px'; this.clusterEl.style.display='block'; this.clusterEl.style.opacity='1';
     } else { this.clusterEl.style.display='none'; }
     if(this.openGroupKey && this.popEl){
@@ -937,7 +1057,7 @@ class Component extends DCLogic {
   closePopover = ()=>{ this.openGroupKey=null; if(this.popEl) this.popEl.style.display='none'; }
   buildPopover(grp){ if(!this.popEl) return; this.popEl.innerHTML='';
     const card=document.createElement('div'); card.style.cssText='background:#fff;border-radius:14px;box-shadow:0 12px 34px rgba(33,33,32,.24);padding:8px;min-width:216px';
-    const h=document.createElement('div'); h.textContent = grp.key==='__japan' ? ('Japan \u00b7 '+grp.members.length+' services') : 'Services at this location'; h.style.cssText='font:700 10px/1 var(--font-sans);letter-spacing:.1em;text-transform:uppercase;color:#8a837a;padding:7px 10px 9px'; card.appendChild(h);
+    const h=document.createElement('div'); h.textContent = grp.key==='__japan' ? this.t('clusterLabel', {n:grp.members.length}) : this.t('servicesAtLocation'); h.style.cssText='font:700 10px/1 var(--font-sans);letter-spacing:.1em;text-transform:uppercase;color:#8a837a;padding:7px 10px 9px'; card.appendChild(h);
     grp.members.forEach(m=>{ const b=document.createElement('button'); b.type='button'; b.style.cssText='display:flex;align-items:center;gap:11px;width:100%;text-align:left;padding:10px;border:0;background:none;border-radius:10px;cursor:pointer'; b.addEventListener('mouseenter',()=>b.style.background='#f2eee7'); b.addEventListener('mouseleave',()=>b.style.background='none');
       b.innerHTML='<span style="width:9px;height:9px;border-radius:50%;background:var(--aj-red);flex:none"></span><span style="flex:1;min-width:0"><span style="display:block;font:600 14px/1.2 var(--font-sans);color:var(--fg1)">'+m.shortName+'</span><span style="display:block;font:var(--caption);color:var(--fg3);margin-top:2px">'+m.focusTag+'</span></span><span style="color:var(--aj-red);font-size:15px;flex:none">\u2192</span>';
       b.addEventListener('click',(e)=>{ e.stopPropagation(); this.closePopover(); this.onOpenLocation(m.id); });
@@ -986,8 +1106,16 @@ class Component extends DCLogic {
     const hlHeadingStyle = 'font:var(--h1);margin:8px 0 0;letter-spacing:var(--tracking-tight);font-size:40px;color:var(--fg1)';
     const hlBodyStyle = 'font:var(--body-sm);margin:12px 0 0;color:var(--fg2)';
     const hintStyle = 'position:absolute;left:24px;bottom:24px;z-index:4;pointer-events:none;font:var(--overline);letter-spacing:.14em;text-transform:uppercase;color:'+(redMode?'rgba(255,255,255,.95)':'var(--fg3)');
-    const regs = [['all','All'],['europe','Europe'],['japan','Japan'],['india','India'],['americas','USA']];
+    const T = this.strings();
+    const regs = [['all',T.regionAll],['europe',T.regionEurope],['japan',T.regionJapan],['india',T.regionIndia],['americas',T.regionAmericas]];
     const regions = regs.map(([key,label])=>({ key, label, onClick:()=>this.onSelectRegion(key), style:this.regStyle(s.filter===key) }));
+
+    const langs = this.LANGS.map(l=>({
+      code:l.code, label:l.label,
+      onClick:()=>this.onSelectLang(l.code),
+      style:'display:block;width:100%;text-align:left;padding:9px 15px;border:0;background:'+(l.code===s.lang?'var(--aj-blush)':'#fff')+';cursor:pointer;font:'+(l.code===s.lang?'700':'400')+' 12.5px/1 var(--font-sans);color:var(--fg1);white-space:nowrap',
+    }));
+    const activeLangLabel = (this.LANGS.find(l=>l.code===s.lang)||this.LANGS[0]).label;
 
     let list = this.locations;
     if(s.filter!=='all') list = list.filter(l=>l.region===s.filter);
@@ -1006,7 +1134,7 @@ class Component extends DCLogic {
         onClick:()=>this.onOpenLocation(l.id), onEnter:()=>{ this.hoverId=l.id; }, onLeave:()=>{ this.hoverId=null; } };
     });
 
-    const loc = this.locations.find(l=>l.id===s.activeId) || null;
+    const loc = s.activeId ? (this.locations.find(l=>l.id===s.activeId) || null) : null;
     let active = null;
     if(loc){
       active = Object.assign({}, loc, {
@@ -1020,16 +1148,17 @@ class Component extends DCLogic {
         videoUrl: loc.videoUrl || '',
         isFileVideo: /\.mp4($|\?)/i.test(loc.videoUrl||''),
         isEmbedVideo: !!(loc.videoUrl) && !/\.mp4($|\?)/i.test(loc.videoUrl),
-        serviceOptions: loc.capabilities.map(c=>c.name).concat(['General inquiry']),
+        serviceOptions: loc.capabilities.map(c=>c.name).concat([this.t('generalInquiry')]),
       });
     }
 
     const hasTour = !!(active && active.videoUrl);
     const steps = hasTour ? [0,1,2,3] : [0,1,3];
     const stepPos = Math.max(0, steps.indexOf(s.storyStep));
-    const storyTabs = steps.map(i=>({ label:this.tabDefs[i], onClick:()=>this.setState({storyStep:i}), style:this.tabStyle(i===s.storyStep) }));
+    const tabLabels = [T.tabOverview, T.tabCapabilities, T.tabTour, T.tabConnect];
+    const storyTabs = steps.map(i=>({ label:tabLabels[i], onClick:()=>this.setState({storyStep:i}), style:this.tabStyle(i===s.storyStep) }));
     const showNext = stepPos < steps.length-1;
-    const nextLabel = showNext ? ('Next: '+this.tabDefs[steps[stepPos+1]]) : '';
+    const nextLabel = showNext ? this.t('next', {tab:tabLabels[steps[stepPos+1]]}) : '';
 
     const m = s.isMobile;
     const overlayStyle = 'position:fixed;inset:0;z-index:60;display:flex;'+(m?'':'justify-content:flex-end;')+'background:rgba(23,22,21,'+(m?'0':'0.34')+');animation:ajfade .3s ease';
@@ -1052,7 +1181,9 @@ class Component extends DCLogic {
       showOverview: s.storyStep===0, showCaps: s.storyStep===1, showTour: s.storyStep===2 && hasTour, showConnect: s.storyStep===3,
       tourVideoRef:(el)=>{ this.tourVideoEl=el; }, onTourFull:this.onTourFull,
       storyTabs, showNext, nextLabel,
-      stepLabel: 'Step '+(stepPos+1)+' / '+steps.length,
+      stepLabel: this.t('step', {n:stepPos+1, total:steps.length}),
+      T, langs, activeLangLabel, langOpen: s.langOpen, onToggleLang: this.onToggleLang,
+      thanksBody: this.t('thanksBody', {city: active ? active.city : ''}),
       submitted: s.submitted, notSubmitted: !s.submitted,
       overlayStyle, panelStyle,
       onOverlayClick:this.onOverlayClick, stopProp:this.stopProp, onClose:this.onClose,

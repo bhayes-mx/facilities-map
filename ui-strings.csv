@@ -1,0 +1,48 @@
+Key,Notes (not shown in the app),English,Japanese,Spanish,German,Dutch
+overline,Left rail eyebrow,Our Global Network,グローバルネットワーク,Nuestra red global,Unser globales Netzwerk,Ons wereldwijde netwerk
+heading,Left rail headline,Specialized Expertise and Innovation,専門性と革新,Experiencia especializada e innovación,Spezialisierte Expertise und Innovation,Gespecialiseerde expertise en innovatie
+body,Left rail intro paragraph,"Removing barriers, expanding what's possible, and turning novel and complex science into manufacturable reality, sustainably and at scale.",障壁を取り除き、可能性を広げ、新規かつ複雑なサイエンスを、持続可能な形で大規模に製造可能な現実へと変えていきます。,"Eliminamos barreras, ampliamos lo posible y convertimos la ciencia novedosa y compleja en una realidad fabricable, de forma sostenible y a escala.","Wir beseitigen Hürden, erweitern das Mögliche und machen neuartige, komplexe Wissenschaft nachhaltig und im großen Maßstab herstellbar.","Wij nemen barrières weg, vergroten wat mogelijk is en maken nieuwe, complexe wetenschap duurzaam en op schaal produceerbaar."
+fallbackData,Warning chip when the CSV fails to load,Fallback data,代替データ,Datos de reserva,Ersatzdaten,Terugvaldata
+statSites,Footer stat label,Sites,拠点,Centros,Standorte,Vestigingen
+statCountries,Footer stat label,Countries,国,Países,Länder,Landen
+statEmployees,Footer stat label,Employees,従業員,Empleados,Mitarbeitende,Medewerkers
+tagline,Brand line above the globe,Unlock Innovation. Unleash Potential.,革新を解き放ち、可能性を引き出す。,Libere la innovación. Despliegue el potencial.,Innovation entfesseln. Potenzial freisetzen.,Ontsluit innovatie. Ontketen potentieel.
+resetGlobe,Globe control button,Reset Globe,地球儀をリセット,Restablecer globo,Globus zurücksetzen,Globe herstellen
+dragHint,Globe interaction hint,Drag to spin · Scroll to zoom,ドラッグで回転 · スクロールでズーム,Arrastre para girar · Desplace para ampliar,Ziehen zum Drehen · Scrollen zum Zoomen,Sleep om te draaien · Scroll om te zoomen
+zoomIn,Button aria-label,Zoom in,ズームイン,Ampliar,Vergrößern,Inzoomen
+zoomOut,Button aria-label,Zoom out,ズームアウト,Reducir,Verkleinern,Uitzoomen
+close,Button aria-label,Close,閉じる,Cerrar,Schließen,Sluiten
+language,Language selector label,Language,言語,Idioma,Sprache,Taal
+regionAll,Region filter,All,すべて,Todas,Alle,Alle
+regionEurope,Region filter,Europe,ヨーロッパ,Europa,Europa,Europa
+regionJapan,Region filter,Japan,日本,Japón,Japan,Japan
+regionIndia,Region filter,India,インド,India,Indien,India
+regionAmericas,Region filter,USA,米国,EE. UU.,USA,VS
+tabOverview,Drawer tab,Overview,概要,Resumen,Überblick,Overzicht
+tabCapabilities,Drawer tab,Capabilities,能力,Capacidades,Kompetenzen,Capaciteiten
+tabTour,Drawer tab,Virtual Tour,バーチャルツアー,Visita virtual,Virtuelle Tour,Virtuele tour
+tabConnect,Drawer tab,Connect,お問い合わせ,Contacto,Kontakt,Contact
+cardEmployees,Overview stat card,Employees,従業員,Empleados,Mitarbeitende,Medewerkers
+cardCapabilities,Overview stat card,Capabilities,能力,Capacidades,Kompetenzen,Capaciteiten
+cardCoreModality,Overview stat card,Core modality,中核モダリティ,Modalidad principal,Kernmodalität,Kernmodaliteit
+capsOverline,Capabilities tab eyebrow,MAKING A DIFFERENCE,違いを生み出す,MARCANDO LA DIFERENCIA,WIR MACHEN DEN UNTERSCHIED,HET VERSCHIL MAKEN
+capsHeading,Capabilities tab headline,Research & Capabilities,研究と能力,Investigación y capacidades,Forschung & Kompetenzen,Onderzoek & capaciteiten
+tourOverline,Virtual Tour tab eyebrow,VIEW INSIDE,内部を見る,MIRE POR DENTRO,BLICK NACH INNEN,KIJK BINNEN
+tourHeading,Virtual Tour tab headline,Virtual Tour,バーチャルツアー,Visita virtual,Virtuelle Tour,Virtuele tour
+tourFullscreen,Virtual Tour button,Play fullscreen,全画面で再生,Ver en pantalla completa,Vollbild abspielen,Volledig scherm
+connectOverline,Connect tab eyebrow,FORGE AHEAD,前へ進む,SIGA ADELANTE,VORAN GEHEN,VOORUIT
+connectIntro,Connect tab sub-paragraph,Tell us about your program and our team will be in touch.,プログラムについてお知らせください。担当チームよりご連絡いたします。,Cuéntenos sobre su programa y nuestro equipo se pondrá en contacto.,Erzählen Sie uns von Ihrem Programm – unser Team meldet sich bei Ihnen.,Vertel ons over uw programma en ons team neemt contact met u op.
+fieldName,Form label,Full name,氏名,Nombre completo,Vollständiger Name,Volledige naam
+fieldEmail,Form label,Work email,勤務先メールアドレス,Correo electrónico de trabajo,Geschäftliche E-Mail,Zakelijk e-mailadres
+fieldService,Form label,Service of interest,ご関心のあるサービス,Servicio de interés,Gewünschte Leistung,Dienst van interesse
+fieldMessage,Form label,How can we help?,どのようなご支援が必要ですか？,¿Cómo podemos ayudarle?,Wie können wir helfen?,Hoe kunnen wij helpen?
+generalInquiry,Last option in the service dropdown,General inquiry,一般的なお問い合わせ,Consulta general,Allgemeine Anfrage,Algemene vraag
+submit,Form submit button,Send inquiry,送信する,Enviar consulta,Anfrage senden,Vraag versturen
+thanksHeading,Post-submit confirmation,Thank you.,ありがとうございます。,Gracias.,Vielen Dank.,Dank u.
+thanksBody,Post-submit confirmation — {city} is replaced with the facility city,Your inquiry has reached our {city} team. We'll respond within two business days.,お問い合わせは{city}チームに届きました。2営業日以内にご返信いたします。,Su consulta ha llegado a nuestro equipo de {city}. Le responderemos en un plazo de dos días laborables.,Ihre Anfrage hat unser Team in {city} erreicht. Wir antworten innerhalb von zwei Werktagen.,Uw vraag is aangekomen bij ons team in {city}. Wij reageren binnen twee werkdagen.
+backToMap,Post-submit button,Back to the map,地図に戻る,Volver al mapa,Zurück zur Karte,Terug naar de kaart
+step,Drawer footer — {n} of {total},Step {n} / {total},ステップ {n} / {total},Paso {n} / {total},Schritt {n} / {total},Stap {n} / {total}
+next,Drawer footer next button — {tab} is the next tab name,Next: {tab},次へ：{tab},Siguiente: {tab},Weiter: {tab},Volgende: {tab}
+clusterLabel,Globe cluster pin label — {n} is the site count,Japan · {n} services,日本 · {n}件のサービス,Japón · {n} servicios,Japan · {n} Leistungen,Japan · {n} diensten
+servicesHere,Pin label where several services share one location,{n} services here,ここに{n}件のサービス,{n} servicios aquí,{n} Leistungen hier,{n} diensten hier
+servicesAtLocation,Header of the shared-location popover,Services at this location,この拠点のサービス,Servicios en esta ubicación,Leistungen an diesem Standort,Diensten op deze locatie
