@@ -202,7 +202,7 @@
         </button>
         <sc-if value="{{ langOpen }}" hint-placeholder-val="{{ false }}">
           <div style="position:absolute;bottom:calc(100% + 7px);right:0;min-width:152px;background:#fff;border:1px solid var(--border);border-radius:var(--radius-sm);box-shadow:var(--shadow-lg);overflow:hidden;animation:ajup .2s var(--ease-out)">
-            <sc-for list="{{ langs }}" as="lg" hint-placeholder-count="5">
+            <sc-for list="{{ langs }}" as="lg" hint-placeholder-count="6">
               <button onClick="{{ lg.onClick }}" style="{{ lg.style }}">{{ lg.label }}</button>
             </sc-for>
           </div>
@@ -383,9 +383,10 @@ class Component extends DCLogic {
     this.LANGS = [
       { code:'en', label:'English'    },
       { code:'ja', label:'日本語'      },
-      { code:'es', label:'Español'    },
       { code:'de', label:'Deutsch'    },
-      { code:'nl', label:'Nederlands' },
+      { code:'fr', label:'Français'   },
+      { code:'zh', label:'简体中文'    },
+      { code:'ko', label:'한국어'      },
     ];
     // Baked-in English so the app is fully readable even if ui-strings.csv fails.
     this.UI_EN = {
@@ -412,7 +413,7 @@ class Component extends DCLogic {
       clusterLabel:'Japan · {n} services', servicesHere:'{n} services here',
       servicesAtLocation:'Services at this location',
     };
-    this.uiStrings = null;   // {key: {en, ja, es, de, nl}} once ui-strings.csv loads
+    this.uiStrings = null;   // {key: {en, ja, es, de, nl, fr, zh, ko}} once ui-strings.csv loads
 
     // ---- deep linking -----------------------------------------------------
     // ?site=<id> opens that facility's interior page on load; &tab=<name>
@@ -524,7 +525,7 @@ class Component extends DCLogic {
           {name:'High Potency API Manufacturing', icon:'vial', detail:'Lorem ipsum dolor sit amet consectetur adipiscing elit. Sit amet consectetur adipiscing elit quisque faucibus ex. Adipiscing elit quisque faucibus ex sapien vitae pellentesque.'},
           {name:'Continuous Flow Chemistry', icon:'molecule', detail:'Lorem ipsum dolor sit amet consectetur adipiscing elit. Sit amet consectetur adipiscing elit quisque faucibus ex. Adipiscing elit quisque faucibus ex sapien vitae pellentesque.'},
         ] },
-      { id:'corynex', region:'japan', markerGroup:'R&D', shortName:'Large Molecule', name:'Corynex®', city:'Kawasaki, Japan', country:'Japan',
+      { id:'protein', region:'japan', markerGroup:'R&D', shortName:'Protein', name:'Corynex®', city:'Kawasaki, Japan', country:'Japan',
         lat:35.5186, lng:139.7363, employees:275, focusTag:'VHH & Nanobodies', focusShort:'BioProcess',
         photo:'https://dev.ajibio.com/wp-content/uploads/2026/07/corynex.svg',
         videoUrl:'https://player.vimeo.com/video/1174768410?h=a795273d46',
@@ -683,12 +684,15 @@ class Component extends DCLogic {
     const loc = this.locations.find(l=>l.id===link.site)
       || this.locations.find(l=>this.slugify(l.shortName)===link.site);
     if(!loc){
+      // init() can win the race against the CSV fetch, so a miss against the
+      // baked-in fallback must NOT discard the link — retry once data settles.
+      if(!this.dataSettled) return;
       console.warn('[facility-map] deep link ?site='+link.site+' matched no facility — ignoring.');
       this.pendingLink = null;
       return;
     }
     this.pendingLink = null;
-    this.onOpenLocation(loc.id);
+    this.openResolved(loc);
     if(link.tab){
       let i = this.tabIndexFromName(link.tab);
       if(i === 2 && !loc.videoUrl) i = 0;   // no Virtual Tour tab on this site
@@ -738,7 +742,8 @@ class Component extends DCLogic {
       const colFor = {
         en: heads.indexOf('english'), ja: heads.indexOf('japanese'),
         es: heads.indexOf('spanish'), de: heads.indexOf('german'),
-        nl: heads.indexOf('dutch'),
+        nl: heads.indexOf('dutch'), fr: heads.indexOf('french'),
+        zh: heads.indexOf('chinese (simplified)'), ko: heads.indexOf('korean'),
       };
       if(colFor.en < 0) throw new Error('ui-strings.csv needs an "English" column');
       const table = {};
@@ -784,10 +789,13 @@ class Component extends DCLogic {
       this.buildGroups();
       this.forceUpdate();
       if(this.ready) this.buildPins();
+      this.dataSettled = true;
       this.applyDeepLink();
     }catch(err){
       console.warn('[facility-map] facility-data.csv could not be loaded — showing built-in fallback data.', err);
+      this.dataSettled = true;
       this.setState({dataWarning:true});
+      this.applyDeepLink();
     }
   }
 
@@ -1110,6 +1118,7 @@ class Component extends DCLogic {
   // ---- handlers ----
   onResize = ()=>{ const m = window.innerWidth<=760; if(m!==this.state.isMobile){ this.setState({isMobile:m}); } else { this.applyLayout(); this.setupSize(); } }
   onSelectRegion = (key)=>{ this.setState({filter:key}); const c=this.regionCentroids[key]||this.regionCentroids.all; const z = key==='japan' ? this.baseScale*2.1 : (key==='all' ? this.baseScale : this.baseScale*1.45); this.autoRotate=false; this.flyTo(c, z, ()=>{ if(key==='all') this.autoRotate=true; }); }
+  openResolved(loc){ if(!loc) return; this.syncUrl(loc.id); this.closePopover(); this.autoRotate=false; this.flyTo([loc.lng, loc.lat], this.baseScale*1.7); if(this.state.isMobile) this.setState({sheetOpen:false}); this.setState({activeId:loc.id, storyStep:0, submitted:false, openCap:null}); }
   onOpenLocation = (id)=>{ const loc = this.locations.find(l=>l.id===id); if(!loc) return; this.syncUrl(id); this.closePopover(); this.autoRotate=false; this.flyTo([loc.lng, loc.lat], this.baseScale*1.7); if(this.state.isMobile) this.setState({sheetOpen:false}); this.setState({activeId:id, storyStep:0, submitted:false, openCap:null}); }
   onOpenGroup = (grp)=>{ if(!grp) return; this.autoRotate=false; this.openGroupKey=grp.key; this.buildPopover(grp); this.popEl.style.display='block'; }
   closePopover = ()=>{ this.openGroupKey=null; if(this.popEl) this.popEl.style.display='none'; }

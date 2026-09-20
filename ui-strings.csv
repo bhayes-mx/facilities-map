@@ -1,48 +1,48 @@
-Key,Notes (not shown in the app),English,Japanese,Spanish,German,Dutch
-overline,Left rail eyebrow,Our Global Network,グローバルネットワーク,Nuestra red global,Unser globales Netzwerk,Ons wereldwijde netwerk
-heading,Left rail headline,Specialized Expertise and Innovation,専門性と革新,Experiencia especializada e innovación,Spezialisierte Expertise und Innovation,Gespecialiseerde expertise en innovatie
-body,Left rail intro paragraph,"Removing barriers, expanding what's possible, and turning novel and complex science into manufacturable reality, sustainably and at scale.",障壁を取り除き、可能性を広げ、新規かつ複雑なサイエンスを、持続可能な形で大規模に製造可能な現実へと変えていきます。,"Eliminamos barreras, ampliamos lo posible y convertimos la ciencia novedosa y compleja en una realidad fabricable, de forma sostenible y a escala.","Wir beseitigen Hürden, erweitern das Mögliche und machen neuartige, komplexe Wissenschaft nachhaltig und im großen Maßstab herstellbar.","Wij nemen barrières weg, vergroten wat mogelijk is en maken nieuwe, complexe wetenschap duurzaam en op schaal produceerbaar."
-fallbackData,Warning chip when the CSV fails to load,Fallback data,代替データ,Datos de reserva,Ersatzdaten,Terugvaldata
-statSites,Footer stat label,Sites,拠点,Centros,Standorte,Vestigingen
-statCountries,Footer stat label,Countries,国,Países,Länder,Landen
-statEmployees,Footer stat label,Employees,従業員,Empleados,Mitarbeitende,Medewerkers
-tagline,Brand line above the globe,Unlock Innovation. Unleash Potential.,革新を解き放ち、可能性を引き出す。,Libere la innovación. Despliegue el potencial.,Innovation entfesseln. Potenzial freisetzen.,Ontsluit innovatie. Ontketen potentieel.
-resetGlobe,Globe control button,Reset Globe,地球儀をリセット,Restablecer globo,Globus zurücksetzen,Globe herstellen
-dragHint,Globe interaction hint,Drag to spin · Scroll to zoom,ドラッグで回転 · スクロールでズーム,Arrastre para girar · Desplace para ampliar,Ziehen zum Drehen · Scrollen zum Zoomen,Sleep om te draaien · Scroll om te zoomen
-zoomIn,Button aria-label,Zoom in,ズームイン,Ampliar,Vergrößern,Inzoomen
-zoomOut,Button aria-label,Zoom out,ズームアウト,Reducir,Verkleinern,Uitzoomen
-close,Button aria-label,Close,閉じる,Cerrar,Schließen,Sluiten
-language,Language selector label,Language,言語,Idioma,Sprache,Taal
-regionAll,Region filter,All,すべて,Todas,Alle,Alle
-regionEurope,Region filter,Europe,ヨーロッパ,Europa,Europa,Europa
-regionJapan,Region filter,Japan,日本,Japón,Japan,Japan
-regionIndia,Region filter,India,インド,India,Indien,India
-regionAmericas,Region filter,USA,米国,EE. UU.,USA,VS
-tabOverview,Drawer tab,Overview,概要,Resumen,Überblick,Overzicht
-tabCapabilities,Drawer tab,Capabilities,能力,Capacidades,Kompetenzen,Capaciteiten
-tabTour,Drawer tab,Virtual Tour,バーチャルツアー,Visita virtual,Virtuelle Tour,Virtuele tour
-tabConnect,Drawer tab,Connect,お問い合わせ,Contacto,Kontakt,Contact
-cardEmployees,Overview stat card,Employees,従業員,Empleados,Mitarbeitende,Medewerkers
-cardCapabilities,Overview stat card,Capabilities,能力,Capacidades,Kompetenzen,Capaciteiten
-cardCoreModality,Overview stat card,Core modality,中核モダリティ,Modalidad principal,Kernmodalität,Kernmodaliteit
-capsOverline,Capabilities tab eyebrow,MAKING A DIFFERENCE,違いを生み出す,MARCANDO LA DIFERENCIA,WIR MACHEN DEN UNTERSCHIED,HET VERSCHIL MAKEN
-capsHeading,Capabilities tab headline,Research & Capabilities,研究と能力,Investigación y capacidades,Forschung & Kompetenzen,Onderzoek & capaciteiten
-tourOverline,Virtual Tour tab eyebrow,VIEW INSIDE,内部を見る,MIRE POR DENTRO,BLICK NACH INNEN,KIJK BINNEN
-tourHeading,Virtual Tour tab headline,Virtual Tour,バーチャルツアー,Visita virtual,Virtuelle Tour,Virtuele tour
-tourFullscreen,Virtual Tour button,Play fullscreen,全画面で再生,Ver en pantalla completa,Vollbild abspielen,Volledig scherm
-connectOverline,Connect tab eyebrow,FORGE AHEAD,前へ進む,SIGA ADELANTE,VORAN GEHEN,VOORUIT
-connectIntro,Connect tab sub-paragraph,Tell us about your program and our team will be in touch.,プログラムについてお知らせください。担当チームよりご連絡いたします。,Cuéntenos sobre su programa y nuestro equipo se pondrá en contacto.,Erzählen Sie uns von Ihrem Programm – unser Team meldet sich bei Ihnen.,Vertel ons over uw programma en ons team neemt contact met u op.
-fieldName,Form label,Full name,氏名,Nombre completo,Vollständiger Name,Volledige naam
-fieldEmail,Form label,Work email,勤務先メールアドレス,Correo electrónico de trabajo,Geschäftliche E-Mail,Zakelijk e-mailadres
-fieldService,Form label,Service of interest,ご関心のあるサービス,Servicio de interés,Gewünschte Leistung,Dienst van interesse
-fieldMessage,Form label,How can we help?,どのようなご支援が必要ですか？,¿Cómo podemos ayudarle?,Wie können wir helfen?,Hoe kunnen wij helpen?
-generalInquiry,Last option in the service dropdown,General inquiry,一般的なお問い合わせ,Consulta general,Allgemeine Anfrage,Algemene vraag
-submit,Form submit button,Send inquiry,送信する,Enviar consulta,Anfrage senden,Vraag versturen
-thanksHeading,Post-submit confirmation,Thank you.,ありがとうございます。,Gracias.,Vielen Dank.,Dank u.
-thanksBody,Post-submit confirmation — {city} is replaced with the facility city,Your inquiry has reached our {city} team. We'll respond within two business days.,お問い合わせは{city}チームに届きました。2営業日以内にご返信いたします。,Su consulta ha llegado a nuestro equipo de {city}. Le responderemos en un plazo de dos días laborables.,Ihre Anfrage hat unser Team in {city} erreicht. Wir antworten innerhalb von zwei Werktagen.,Uw vraag is aangekomen bij ons team in {city}. Wij reageren binnen twee werkdagen.
-backToMap,Post-submit button,Back to the map,地図に戻る,Volver al mapa,Zurück zur Karte,Terug naar de kaart
-step,Drawer footer — {n} of {total},Step {n} / {total},ステップ {n} / {total},Paso {n} / {total},Schritt {n} / {total},Stap {n} / {total}
-next,Drawer footer next button — {tab} is the next tab name,Next: {tab},次へ：{tab},Siguiente: {tab},Weiter: {tab},Volgende: {tab}
-clusterLabel,Globe cluster pin label — {n} is the site count,Japan · {n} services,日本 · {n}件のサービス,Japón · {n} servicios,Japan · {n} Leistungen,Japan · {n} diensten
-servicesHere,Pin label where several services share one location,{n} services here,ここに{n}件のサービス,{n} servicios aquí,{n} Leistungen hier,{n} diensten hier
-servicesAtLocation,Header of the shared-location popover,Services at this location,この拠点のサービス,Servicios en esta ubicación,Leistungen an diesem Standort,Diensten op deze locatie
+Key,Notes (not shown in the app),English,Japanese,Spanish,German,Dutch,Chinese (Simplified),French,Korean
+overline,Left rail eyebrow,Our Global Network,グローバルネットワーク,Nuestra red global,Unser globales Netzwerk,Ons wereldwijde netwerk,我们的全球网络,Notre réseau mondial,글로벌 네트워크
+heading,Left rail headline,Specialized Expertise and Innovation,専門性と革新,Experiencia especializada e innovación,Spezialisierte Expertise und Innovation,Gespecialiseerde expertise en innovatie,专业专长与创新,Expertise spécialisée et innovation,전문 역량과 혁신
+body,Left rail intro paragraph,"Removing barriers, expanding what's possible, and turning novel and complex science into manufacturable reality, sustainably and at scale.",障壁を取り除き、可能性を広げ、新規かつ複雑なサイエンスを、持続可能な形で大規模に製造可能な現実へと変えていきます。,"Eliminamos barreras, ampliamos lo posible y convertimos la ciencia novedosa y compleja en una realidad fabricable, de forma sostenible y a escala.","Wir beseitigen Hürden, erweitern das Mögliche und machen neuartige, komplexe Wissenschaft nachhaltig und im großen Maßstab herstellbar.","Wij nemen barrières weg, vergroten wat mogelijk is en maken nieuwe, complexe wetenschap duurzaam en op schaal produceerbaar.",消除障碍，拓展可能，并以可持续的方式大规模地将新颖而复杂的科学转化为可制造的现实。,"Lever les obstacles, élargir le possible et transformer une science nouvelle et complexe en réalité industrialisable, de manière durable et à grande échelle.","장벽을 제거하고 가능성을 확장하며, 새롭고 복잡한 과학을 지속가능한 방식으로 대규모 생산 가능한 현실로 전환합니다."
+fallbackData,Warning chip when the CSV fails to load,Fallback data,代替データ,Datos de reserva,Ersatzdaten,Terugvaldata,备用数据,Données de secours,대체 데이터
+statSites,Footer stat label,Sites,拠点,Centros,Standorte,Vestigingen,基地,Sites,사업장
+statCountries,Footer stat label,Countries,国,Países,Länder,Landen,国家,Pays,국가
+statEmployees,Footer stat label,Employees,従業員,Empleados,Mitarbeitende,Medewerkers,员工,Collaborateurs,임직원
+tagline,Brand line above the globe,Unlock Innovation. Unleash Potential.,革新を解き放ち、可能性を引き出す。,Libere la innovación. Despliegue el potencial.,Innovation entfesseln. Potenzial freisetzen.,Ontsluit innovatie. Ontketen potentieel.,释放创新，激发潜能。,Libérez l’innovation. Révélez le potentiel.,혁신을 열고 잠재력을 펼칩니다.
+resetGlobe,Globe control button,Reset Globe,地球儀をリセット,Restablecer globo,Globus zurücksetzen,Globe herstellen,重置地球,Réinitialiser le globe,지구본 초기화
+dragHint,Globe interaction hint,Drag to spin · Scroll to zoom,ドラッグで回転 · スクロールでズーム,Arrastre para girar · Desplace para ampliar,Ziehen zum Drehen · Scrollen zum Zoomen,Sleep om te draaien · Scroll om te zoomen,拖动旋转 · 滚动缩放,Faites glisser pour tourner · Défilez pour zoomer,드래그하여 회전 · 스크롤하여 확대
+zoomIn,Button aria-label,Zoom in,ズームイン,Ampliar,Vergrößern,Inzoomen,放大,Zoom avant,확대
+zoomOut,Button aria-label,Zoom out,ズームアウト,Reducir,Verkleinern,Uitzoomen,缩小,Zoom arrière,축소
+close,Button aria-label,Close,閉じる,Cerrar,Schließen,Sluiten,关闭,Fermer,닫기
+language,Language selector label,Language,言語,Idioma,Sprache,Taal,语言,Langue,언어
+regionAll,Region filter,All,すべて,Todas,Alle,Alle,全部,Toutes,전체
+regionEurope,Region filter,Europe,ヨーロッパ,Europa,Europa,Europa,欧洲,Europe,유럽
+regionJapan,Region filter,Japan,日本,Japón,Japan,Japan,日本,Japon,일본
+regionIndia,Region filter,India,インド,India,Indien,India,印度,Inde,인도
+regionAmericas,Region filter,USA,米国,EE. UU.,USA,VS,美国,États-Unis,미국
+tabOverview,Drawer tab,Overview,概要,Resumen,Überblick,Overzicht,概览,Aperçu,개요
+tabCapabilities,Drawer tab,Capabilities,能力,Capacidades,Kompetenzen,Capaciteiten,能力,Capacités,역량
+tabTour,Drawer tab,Virtual Tour,バーチャルツアー,Visita virtual,Virtuelle Tour,Virtuele tour,虚拟参观,Visite virtuelle,버추얼 투어
+tabConnect,Drawer tab,Connect,お問い合わせ,Contacto,Kontakt,Contact,联系我们,Contact,문의하기
+cardEmployees,Overview stat card,Employees,従業員,Empleados,Mitarbeitende,Medewerkers,员工,Collaborateurs,임직원
+cardCapabilities,Overview stat card,Capabilities,能力,Capacidades,Kompetenzen,Capaciteiten,能力,Capacités,역량
+cardCoreModality,Overview stat card,Core modality,中核モダリティ,Modalidad principal,Kernmodalität,Kernmodaliteit,核心模式,Modalité principale,핵심 모달리티
+capsOverline,Capabilities tab eyebrow,MAKING A DIFFERENCE,違いを生み出す,MARCANDO LA DIFERENCIA,WIR MACHEN DEN UNTERSCHIED,HET VERSCHIL MAKEN,创造不同,FAIRE LA DIFFÉRENCE,변화를 만듭니다
+capsHeading,Capabilities tab headline,Research & Capabilities,研究と能力,Investigación y capacidades,Forschung & Kompetenzen,Onderzoek & capaciteiten,研究与能力,Recherche et capacités,연구 및 역량
+tourOverline,Virtual Tour tab eyebrow,VIEW INSIDE,内部を見る,MIRE POR DENTRO,BLICK NACH INNEN,KIJK BINNEN,走进内部,REGARD À L’INTÉRIEUR,내부 살펴보기
+tourHeading,Virtual Tour tab headline,Virtual Tour,バーチャルツアー,Visita virtual,Virtuelle Tour,Virtuele tour,虚拟参观,Visite virtuelle,버추얼 투어
+tourFullscreen,Virtual Tour button,Play fullscreen,全画面で再生,Ver en pantalla completa,Vollbild abspielen,Volledig scherm,全屏播放,Lire en plein écran,전체 화면으로 재생
+connectOverline,Connect tab eyebrow,FORGE AHEAD,前へ進む,SIGA ADELANTE,VORAN GEHEN,VOORUIT,向前迈进,ALLER DE L’AVANT,앞으로 나아가기
+connectIntro,Connect tab sub-paragraph,Tell us about your program and our team will be in touch.,プログラムについてお知らせください。担当チームよりご連絡いたします。,Cuéntenos sobre su programa y nuestro equipo se pondrá en contacto.,Erzählen Sie uns von Ihrem Programm – unser Team meldet sich bei Ihnen.,Vertel ons over uw programma en ons team neemt contact met u op.,请告诉我们您的项目，我们的团队将与您联系。,Parlez-nous de votre programme et notre équipe vous contactera.,프로그램에 대해 알려주시면 담당 팀이 연락드리겠습니다.
+fieldName,Form label,Full name,氏名,Nombre completo,Vollständiger Name,Volledige naam,姓名,Nom complet,성명
+fieldEmail,Form label,Work email,勤務先メールアドレス,Correo electrónico de trabajo,Geschäftliche E-Mail,Zakelijk e-mailadres,工作邮箱,E-mail professionnel,회사 이메일
+fieldService,Form label,Service of interest,ご関心のあるサービス,Servicio de interés,Gewünschte Leistung,Dienst van interesse,感兴趣的服务,Service souhaité,관심 서비스
+fieldMessage,Form label,How can we help?,どのようなご支援が必要ですか？,¿Cómo podemos ayudarle?,Wie können wir helfen?,Hoe kunnen wij helpen?,我们能提供什么帮助？,Comment pouvons-nous vous aider ?,무엇을 도와드릴까요?
+generalInquiry,Last option in the service dropdown,General inquiry,一般的なお問い合わせ,Consulta general,Allgemeine Anfrage,Algemene vraag,一般咨询,Demande générale,일반 문의
+submit,Form submit button,Send inquiry,送信する,Enviar consulta,Anfrage senden,Vraag versturen,发送咨询,Envoyer la demande,문의 보내기
+thanksHeading,Post-submit confirmation,Thank you.,ありがとうございます。,Gracias.,Vielen Dank.,Dank u.,感谢您。,Merci.,감사합니다.
+thanksBody,Post-submit confirmation — {city} is replaced with the facility city,Your inquiry has reached our {city} team. We'll respond within two business days.,お問い合わせは{city}チームに届きました。2営業日以内にご返信いたします。,Su consulta ha llegado a nuestro equipo de {city}. Le responderemos en un plazo de dos días laborables.,Ihre Anfrage hat unser Team in {city} erreicht. Wir antworten innerhalb von zwei Werktagen.,Uw vraag is aangekomen bij ons team in {city}. Wij reageren binnen twee werkdagen.,您的咨询已送达我们的{city}团队。我们将在两个工作日内回复。,Votre demande est parvenue à notre équipe de {city}. Nous vous répondrons sous deux jours ouvrés.,문의가 {city} 팀에 전달되었습니다. 영업일 기준 2일 내에 답변드리겠습니다.
+backToMap,Post-submit button,Back to the map,地図に戻る,Volver al mapa,Zurück zur Karte,Terug naar de kaart,返回地图,Retour à la carte,지도로 돌아가기
+step,Drawer footer — {n} of {total},Step {n} / {total},ステップ {n} / {total},Paso {n} / {total},Schritt {n} / {total},Stap {n} / {total},步骤 {n} / {total},Étape {n} / {total},단계 {n} / {total}
+next,Drawer footer next button — {tab} is the next tab name,Next: {tab},次へ：{tab},Siguiente: {tab},Weiter: {tab},Volgende: {tab},下一步：{tab},Suivant : {tab},다음: {tab}
+clusterLabel,Globe cluster pin label — {n} is the site count,Japan · {n} services,日本 · {n}件のサービス,Japón · {n} servicios,Japan · {n} Leistungen,Japan · {n} diensten,日本 · {n} 项服务,Japon · {n} services,일본 · 서비스 {n}건
+servicesHere,Pin label where several services share one location,{n} services here,ここに{n}件のサービス,{n} servicios aquí,{n} Leistungen hier,{n} diensten hier,此处有 {n} 项服务,{n} services ici,이곳에 서비스 {n}건
+servicesAtLocation,Header of the shared-location popover,Services at this location,この拠点のサービス,Servicios en esta ubicación,Leistungen an diesem Standort,Diensten op deze locatie,此地点的服务,Services sur ce site,이 지역의 서비스
