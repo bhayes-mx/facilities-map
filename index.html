@@ -373,11 +373,12 @@
 class Component extends DCLogic {
   constructor(props){
     super(props);
-    this.state = { isMobile: (typeof window!=='undefined' && window.innerWidth<=760), sheetOpen:false, activeId:null, storyStep:0, filter:'all', submitted:false, openCap:null, dataWarning:false, lang:'en', langOpen:false, uiWarning:false };
+    this.state = { isMobile: (typeof window!=='undefined' && window.innerWidth<=760), sheetOpen:false, activeId:null, storyStep:0, filter:'all', submitted:false, openCap:null, dataWarning:false, lang:this.detectLang(), langOpen:false, uiWarning:false };
     this.hoverId = null;
 
     // ---- i18n -------------------------------------------------------------
-    // Always starts in English. Chrome copy comes from ui-strings.csv (one row
+    // Starts in the language Weglot put on the host URL (see detectLang), else
+    // English. Chrome copy comes from ui-strings.csv (one row
     // per key, one column per language); facility copy comes from
     // facility-data.<code>.csv. Both fall back to English if missing.
     this.LANGS = [
@@ -657,6 +658,50 @@ class Component extends DCLogic {
     return out;
   }
 
+
+  // ---- Weglot language detection ----------------------------------------
+  // Weglot rewrites the host page URL with a language prefix (/fr/..., /zh-cn/...)
+  // or a subdomain (fr.example.com). English is the untranslated default and
+  // carries no suffix. We read, in priority order:
+  //   1. ?lang=fr           explicit override, always wins
+  //   2. our own URL        covers the map being served under the prefix itself
+  //   3. document.referrer  covers the map in an iframe on a translated page
+  // Anything unrecognized falls back to English.
+  detectLang(){
+    if(typeof window === 'undefined') return 'en';
+    // Weglot codes → our CSV codes. zh-cn/zh-tw both map to our one Chinese file.
+    const ALIAS = { en:'en', ja:'ja', jp:'ja', de:'de', fr:'fr', ko:'ko', kr:'ko',
+                    zh:'zh', 'zh-cn':'zh', 'zh-hans':'zh', 'zh-tw':'zh', 'zh-hant':'zh' };
+    const known = (c)=>{
+      c = String(c||'').trim().toLowerCase();
+      // LANGS is assigned after state in the constructor, so match a literal
+      // list here; keep it in step with this.LANGS.
+      const LIVE = ['en','ja','de','fr','zh','ko'];
+      const hit = ALIAS[c];
+      return (hit && LIVE.indexOf(hit) !== -1) ? hit : null;
+    };
+    const fromUrl = (href)=>{
+      if(!href) return null;
+      try{
+        const u = new URL(href, window.location.href);
+        // path prefix: /fr/page or /zh-cn/page
+        const seg = u.pathname.split('/').filter(Boolean)[0];
+        const byPath = known(seg);
+        if(byPath) return byPath;
+        // subdomain: fr.example.com
+        const host = u.hostname.split('.');
+        return host.length > 2 ? known(host[0]) : null;
+      }catch(e){ return null; }
+    };
+    try{
+      const q = new URLSearchParams(window.location.search);
+      return known(q.get('lang') || q.get('wg'))
+          || fromUrl(window.location.href)
+          || fromUrl(document.referrer)
+          || 'en';
+    }catch(e){ return 'en'; }
+  }
+
   // ---- deep linking -----------------------------------------------------
   readDeepLink(){
     if(typeof window === 'undefined') return null;
@@ -802,7 +847,7 @@ class Component extends DCLogic {
   componentDidMount(){
     window.addEventListener('resize', this.onResize);
     this.loadUIStrings();
-    this.loadFacilityData('en');
+    this.loadFacilityData(this.state.lang);
   }
   componentWillUnmount(){
     this._dead = true;
