@@ -94,6 +94,7 @@
     }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
+  <script src="https://js.hsforms.net/forms/embed/v2.js" charset="utf-8" type="text/javascript"></script>
   <script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
   <style>
     *{box-sizing:border-box}
@@ -104,6 +105,7 @@
     @keyframes ajpulse{0%{transform:translate(-50%,-50%) scale(.7);opacity:.55}70%{transform:translate(-50%,-50%) scale(2.9);opacity:0}100%{opacity:0}}
     @keyframes ajfade{from{opacity:0}to{opacity:1}}
     @keyframes ajslide{from{opacity:0;transform:translateX(46px)}to{opacity:1;transform:translateX(0)}}
+    @keyframes ajspin{to{transform:rotate(360deg)}}
     @keyframes ajup{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
     @keyframes ajdrift{0%{transform:translate(0,0) rotate(0deg)}50%{transform:translate(-22px,16px) rotate(6deg)}100%{transform:translate(0,0) rotate(0deg)}}
     .aj-scroll::-webkit-scrollbar{width:8px}
@@ -311,32 +313,19 @@
 
           <sc-if value="{{ showConnect }}" hint-placeholder-val="{{ false }}">
             <div style="animation:ajup .34s var(--ease-out)">
-              <sc-if value="{{ notSubmitted }}" hint-placeholder-val="{{ true }}">
-                <div>
+              <div>
                   <div style="font:var(--overline);letter-spacing:var(--tracking-overline);text-transform:uppercase;color:var(--aj-red)">{{ T.connectOverline }}</div>
                   <h3 style="font: var(--display-2); font-size: 28px; line-height: 1.12; color: var(--fg1); margin: 10px 0 8px; letter-spacing: var(--tracking-tight); font-family: kaisei docal">{{ active.contactHeadline }}</h3>
-                  
-                  <p style="font:var(--body-sm);color:var(--fg2);margin:0 0 22px">{{ T.connectIntro }}</p><form onSubmit="{{ onSubmit }}" style="display:flex;flex-direction:column;gap:15px">
-                    <label style="display:block"><span style="font:var(--caption);color:var(--fg2);letter-spacing:.08em;text-transform:uppercase;display:block;margin-bottom:6px">{{ T.fieldName }}</span><input type="text" required="required" style="width:100%;padding:12px 14px;border:1px solid var(--border-strong);border-radius:var(--radius-sm);font:var(--body);color:var(--fg1);background:#fff;outline:none" style-focus="border-color:var(--aj-red)"></label>
-                    <label style="display:block"><span style="font:var(--caption);color:var(--fg2);letter-spacing:.08em;text-transform:uppercase;display:block;margin-bottom:6px">{{ T.fieldEmail }}</span><input type="email" required="required" style="width:100%;padding:12px 14px;border:1px solid var(--border-strong);border-radius:var(--radius-sm);font:var(--body);color:var(--fg1);background:#fff;outline:none" style-focus="border-color:var(--aj-red)"></label>
-                    <label style="display:block"><span style="font:var(--caption);color:var(--fg2);letter-spacing:.08em;text-transform:uppercase;display:block;margin-bottom:6px">{{ T.fieldService }}</span>
-                      <select style="width:100%;padding:12px 14px;border:1px solid var(--border-strong);border-radius:var(--radius-sm);font:var(--body);color:var(--fg1);background:#fff;outline:none;appearance:none" style-focus="border-color:var(--aj-red)">
-                        <sc-for list="{{ active.serviceOptions }}" as="opt" hint-placeholder-count="4"><option>{{ opt }}</option></sc-for>
-                      </select>
-                    </label>
-                    <label style="display:block"><span style="font:var(--caption);color:var(--fg2);letter-spacing:.08em;text-transform:uppercase;display:block;margin-bottom:6px">{{ T.fieldMessage }}</span><textarea rows="3" style="width:100%;padding:12px 14px;border:1px solid var(--border-strong);border-radius:var(--radius-sm);font:var(--body);color:var(--fg1);background:#fff;outline:none;resize:vertical;font-family:var(--font-sans)" style-focus="border-color:var(--aj-red)"></textarea></label>
-                    <button type="submit" style="display:inline-flex;align-items:center;justify-content:space-between;gap:14px;padding:8px 8px 8px 22px;border-radius:999px;background:var(--aj-red);border:0;cursor:pointer;font:700 14px/1 var(--font-sans);letter-spacing:.08em;text-transform:uppercase;color:#fff;box-shadow:var(--shadow-red);transition:transform .18s var(--ease-out)" style-hover="transform:translateY(-1px)"><span>{{ T.submit }}</span><span style="width:38px;height:38px;border-radius:50%;background:#fff;color:var(--aj-red);display:flex;align-items:center;justify-content:center;font-size:16px">→</span></button>
-                  </form>
-                </div>
-              </sc-if>
-              <sc-if value="{{ submitted }}" hint-placeholder-val="{{ false }}">
-                <div style="text-align:center;padding:40px 10px;animation:ajup .34s var(--ease-out)">
-                  <span style="display:inline-flex;width:64px;height:64px;border-radius:50%;background:var(--aj-red);align-items:center;justify-content:center;box-shadow:var(--shadow-red)"><svg width="30" height="30" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
-                  <h3 style="font:var(--h1);color:var(--fg1);margin:20px 0 8px">{{ T.thanksHeading }}</h3>
-                  <p style="font:var(--body);color:var(--fg2);margin:0 auto;max-width:340px">{{ thanksBody }}</p>
-                  <button onClick="{{ onClose }}" style="margin-top:24px;display:inline-flex;align-items:center;gap:12px;padding:8px 8px 8px 20px;border-radius:999px;background:#fff;border:1.5px solid var(--fg1);cursor:pointer;font:700 13px/1 var(--font-sans);letter-spacing:.08em;text-transform:uppercase;color:var(--fg1)">{{ T.backToMap }}<span style="width:34px;height:34px;border-radius:50%;background:var(--fg1);color:#fff;display:flex;align-items:center;justify-content:center">→</span></button>
-                </div>
-              </sc-if>
+                  <p style="font:var(--body-sm);color:var(--fg2);margin:0 0 22px">{{ T.connectIntro }}</p>
+                  <!-- HubSpot form. In the CMS this region is the shortcode:
+                       hubspot type="form" portal="50081784" id="5ea1edad-5848-4b1f-afc4-cae890083d55"
+                       Standalone (GitHub Pages) has no shortcode processor, so the same
+                       form is mounted here through HubSpot's v2 embed API instead. The
+                       facility travels with the submission through the page URL
+                       (?site=<id>), which HubSpot captures automatically. -->
+                  <div id="aj-hs-form" style="min-height:420px"></div>
+                  <noscript><p style="font:var(--body-sm);color:var(--fg2);margin:0">The contact form needs JavaScript. Email <a href="mailto:info@ajibio-pharma.com" style="color:var(--aj-red)">info@ajibio-pharma.com</a> and name the site you're asking about.</p></noscript>
+              </div>
             </div>
           </sc-if>
 
@@ -435,7 +424,7 @@ class Component extends DCLogic {
     this.fallbackLocations = [
       { id:'forge', region:'americas', shortName:'Gene Therapy', name:'Forge Biologics', city:'Columbus, Ohio', country:'United States',
         lat:39.882, lng:-83.102, employees:350, focusTag:'AAV & LVV', focusShort:'AAV',
-        photo:'https://www.forgebiologics.com/wp-content/uploads/2025/05/edit2-Foundry_VOH_Crowd_5__8063-1-1024x683.jpg',
+        photo:'assets/photos/forge%20building%20.jpg',
         videoUrl:'https://www.forgebiologics.com/wp-content/uploads/2026/01/Journey_Of_Hope2026.mp4',
         headline:'Accelerating the Future of Gene Therapy.',
         overview:'Forge Biologics brings your gene therapy program from concept to clinic under one roof. Our Grove City campus unites research-scale discovery, process development, and cGMP manufacturing so your AAV therapy moves forward without the handoffs that slow programs down.',
@@ -451,7 +440,7 @@ class Component extends DCLogic {
         ] },
       { id:'belgium', region:'europe', shortName:'Small Molecule', name:'Small Molecule', city:'Wetteren, Belgium', country:'Belgium',
         lat:51.001, lng:3.885, employees:250, focusTag:'API, HPAPI, & Continuous Flow Chemistry', focusShort:'API',
-        photo:'https://ajibio-pharma.ajinomoto.com/wp-content/themes/ajinomoto-biopharma/assets/img/c_f_c/img_cfc_03.jpg',
+        photo:'assets/photos/ajinomoto-drone.jpg',
         videoUrl:'https://players.brightcove.net/6050660078001/default_default/index.html?videoId=6339493488112',
         headline:'Complex Chemistry at Commercial Scale.',
         overview:'Our Wetteren site is where demanding small-molecule chemistry becomes reliable supply. From first process development through commercial volumes — including high-potency APIs and continuous flow — we engineer routes that are safe, efficient, and built to scale.',
@@ -466,7 +455,7 @@ class Component extends DCLogic {
         ] },
       { id:'osaka', region:'japan', shortName:'Oligo', name:'Oligonucleotides', city:'Osaka, Japan', country:'Japan',
         lat:34.836, lng:135.561, employees:200, focusTag:'Oligo & Peptides', focusShort:'Oligo',
-        photo:'assets/photos/scientist-pipette.jpg',
+        photo:'assets/photos/AJI%20Osaka%202nd%20edit.14_54_01_13.jpg',
         videoUrl:'https://player.vimeo.com/video/1174154077?h=cee1f72eaa',
         headline:'From Vision to Reality.',
         overview:'Our Osaka facility supports oligonucleotide manufacturing from research through commercial scale by combining the flexibility and broad modality support of solid-phase synthesis with the scalability of AJIPHASE®, its liquid-phase technology.',
@@ -482,7 +471,7 @@ class Component extends DCLogic {
         ] },
       { id:'ajicap', region:'japan', markerGroup:'R&D', shortName:'ADC Services', name:'AJICAP®', city:'Kawasaki, Japan', country:'Japan',
         lat:35.5186, lng:139.7363, employees:300, focusTag:'Site-Specific Conjugation', focusShort:'ADC',
-        photo:'https://dev.ajibio.com/wp-content/uploads/2026/07/ajicap.svg',
+        photo:'assets/photos/Kawasaki%20R%26D%20%28ABL%29%20Building_2.jpg',
         videoUrl:'https://player.vimeo.com/video/1174497304?h=861f047299',
         headline:'ADC & Bioconjugation CDMO Services at Scale',
         overview:'AJICAP® site-specific conjugation is an innovative direct chemical site-specific conjugation method for intact native antibodies, offering significant advantages for next generation ADCs.',
@@ -496,7 +485,7 @@ class Component extends DCLogic {
         ] },
       { id:'tokai', region:'japan', shortName:'Peptide Synthesis', name:'AJIPHASE®', city:'Tokai, Japan', country:'Japan',
         lat:34.965, lng:136.624, employees:350, focusTag:'Hybrid-Phase Synthesis', focusShort:'Peptide',
-        photo:'https://dev.ajibio.com/wp-content/uploads/2026/07/ajiphase.svg',
+        photo:'assets/photos/AJI%20Tokai%20Site.jpg',
         videoUrl:'https://player.vimeo.com/video/1176299017?h=f34ac971d5',
         headline:'Peptide Synthesis CDMO Services',
         overview:'Our Tokai facility manufactures high-purity oligonucleotides and peptides at scale using our proprietary AJIPHASE® technology — plus ADCs, AOCs, DACs and GLP-1 analogs. It’s where breakthrough modalities meet manufacturing certainty.',
@@ -513,7 +502,7 @@ class Component extends DCLogic {
         ] },
       { id:'india', region:'india', shortName:'API', name:'API Production', city:'Visakhapatnam, India', country:'India',
         lat:17.686, lng:83.218, employees:225, focusTag:'Small Molecule API', focusShort:'API',
-        photo:'https://ajibio-pharma.ajinomoto.com/wp-content/themes/ajinomoto-biopharma/assets/img/c_f_c/img_cfc_03.jpg',
+        photo:'assets/photos/001-campus-aerial-enhanced.png',
         videoUrl:'https://players.brightcove.net/6050660078001/default_default/index.html?videoId=6339493488112',
         headline:'Reliable Supply, Global Reach.',
         overview:'Our Visakhapatnam site strengthens Ajinomoto Bio-Pharma\u2019s small-molecule network with API and intermediate manufacturing — the same demanding chemistry, high-potency capability, and continuous-flow expertise that define our Wetteren operations, now with added global capacity.',
@@ -528,7 +517,7 @@ class Component extends DCLogic {
         ] },
       { id:'protein', region:'japan', markerGroup:'R&D', shortName:'Protein', name:'Corynex®', city:'Kawasaki, Japan', country:'Japan',
         lat:35.5186, lng:139.7363, employees:275, focusTag:'VHH & Nanobodies', focusShort:'BioProcess',
-        photo:'https://dev.ajibio.com/wp-content/uploads/2026/07/corynex.svg',
+        photo:'assets/photos/Kawasaki%20with%20edits%20-%20feb%2010%202026.00_00_02_05.jpg',
         videoUrl:'https://player.vimeo.com/video/1174768410?h=a795273d46',
         headline:'Long-chain Peptide Biomanufacturing',
         overview:'Corynex is our innovative secretion platform based on the endotoxin-free gram-positive bacteria C. glutamicum. It has a successful track record of being used to support many clients’ clinical studies.',
@@ -856,9 +845,116 @@ class Component extends DCLogic {
     window.removeEventListener('pointerup', this.onPU);
     if(this.raf) cancelAnimationFrame(this.raf);
     if(this._flyRaf) cancelAnimationFrame(this._flyRaf);
+    clearTimeout(this._hsWait); clearTimeout(this._hsTimeout); clearInterval(this._hsPoll);
+    if(this._hsRO) this._hsRO.disconnect();
   }
+
+  // ---- HubSpot contact form ---------------------------------------------
+  // One shared form serves all seven locations; the active facility is written
+  // into the form on load so routing stays intact. In the CMS this is the
+  // shortcode:  hubspot type="form" portal="50081784" id="5ea1edad-..."
+  // Standalone builds mount the same form through the v2 embed API below.
+  HS_PORTAL = '50081784';
+  // One form per language. HubSpot serves field labels from the form definition
+  // in the portal, NOT from ui-strings.csv, so a translated form is a separate
+  // form in HubSpot. Drop its id in beside the matching language code and that
+  // language switches over; anything left null falls back to the English form.
+  HS_FORM_BY_LANG = {
+    en: '5ea1edad-5848-4b1f-afc4-cae890083d55',
+    ja: null, de: null, fr: null, zh: null, ko: null
+  };
+  // If the form never appears, the portal is probably not on na1 —
+  // switch this to 'na2' / 'eu1' to match the portal's data centre.
+  HS_REGION = 'na1';
+  // Our language codes → HubSpot locales (validation + legal copy).
+  HS_LOCALE = { en:'en', ja:'ja', de:'de', fr:'fr', zh:'zh-cn', ko:'ko' };
+
+  mountHubspotForm(){
+    const host = document.getElementById('aj-hs-form');
+    if(!host) return;
+    const loc = this.locations && this.locations.find(l=>l.id===this.state.activeId);
+    const key = (loc ? loc.id : 'none') + '|' + this.state.lang;
+    if(host.dataset.hsKey === key) return;          // already mounted for this pair
+    if(!(window.hbspt && window.hbspt.forms)){      // embed script still loading
+      clearTimeout(this._hsWait);
+      this._hsWait = setTimeout(()=>this.mountHubspotForm(), 120);
+      return;
+    }
+    host.dataset.hsKey = key;
+    clearTimeout(this._hsTimeout);
+    host.innerHTML = this.hsPendingHtml();
+
+    // The facility reaches HubSpot through the page URL. syncUrl() has already
+    // put ?site=<id> in the address bar, and HubSpot captures the page URL with
+    // every submission, so each inquiry is attributable to a location without
+    // touching the form's fields. Reading or writing fields is NOT possible:
+    // this embed renders inside a cross-origin iframe on js.hsforms.net.
+    // For a real routing field, ask the brand team to add a hidden field to the
+    // form and populate it from the query string on their side.
+    const target = document.createElement('div');
+    target.id = 'aj-hs-form-target';
+    host.appendChild(target);
+
+    window.hbspt.forms.create({
+      portalId: this.HS_PORTAL,
+      formId:   this.HS_FORM_BY_LANG[this.state.lang] || this.HS_FORM_BY_LANG.en,
+      region:   this.HS_REGION,
+      target:   '#aj-hs-form-target',
+      locale:   this.HS_LOCALE[this.state.lang] || 'en'
+    });
+
+    // Drop the spinner the moment the frame reports a real height — the embed
+    // resizes by postMessage, so watch for it rather than waiting on the timeout.
+    const settle = ()=>{
+      const frame = host.querySelector('.hs-form-frame, iframe');
+      if(!(frame && frame.getBoundingClientRect().height > 40)) return false;
+      const spin = host.querySelector('[data-hs-pending]');
+      if(spin) spin.remove();
+      clearTimeout(this._hsTimeout);
+      clearInterval(this._hsPoll);
+      if(this._hsRO){ this._hsRO.disconnect(); this._hsRO = null; }
+      return true;
+    };
+    clearInterval(this._hsPoll);
+    if(this._hsRO){ this._hsRO.disconnect(); this._hsRO = null; }
+    if(typeof ResizeObserver !== 'undefined'){
+      this._hsRO = new ResizeObserver(settle);
+      this._hsRO.observe(host);
+    }
+    this._hsPoll = setInterval(settle, 200);   // covers browsers without RO
+
+    // If the height never arrives — blocked by consent tooling, an ad-blocker,
+    // the wrong hublet, a sandboxed origin — the panel would sit empty, so fall
+    // back to an email path. Failure case only; success is handled by settle().
+    this._hsTimeout = setTimeout(()=>{
+      clearInterval(this._hsPoll);
+      if(this._hsRO){ this._hsRO.disconnect(); this._hsRO = null; }
+      if(settle()) return;
+      host.innerHTML = this.hsFallbackHtml(loc);
+    }, 8000);
+  }
+
+  hsPendingHtml(){
+    return '<div data-hs-pending="1" style="display:flex;align-items:center;gap:12px;padding:28px 0;font:var(--body-sm);color:var(--fg2)">'
+      + '<span style="width:20px;height:20px;border-radius:50%;border:2px solid rgba(33,33,32,0.15);border-top-color:var(--aj-red);animation:ajspin .8s linear infinite;flex:none"></span>'
+      + '<span>Loading the contact form\u2026</span></div>';
+  }
+
+  hsFallbackHtml(loc){
+    const site = loc ? (loc.siteName || loc.city || '') : '';
+    const subj = encodeURIComponent('Inquiry' + (site ? ' \u2014 ' + site : ''));
+    return '<div style="padding:24px;border:1px solid var(--border-strong);border-radius:var(--radius-sm);background:#fff">'
+      + '<p style="font:var(--body-sm);color:var(--fg1);margin:0 0 12px">The contact form could not load\u2014it may be blocked by a privacy extension or cookie settings.</p>'
+      + '<a href="mailto:info@ajibio-pharma.com?subject=' + subj + '" style="font:700 13px/1 var(--font-sans);letter-spacing:.08em;text-transform:uppercase;color:var(--aj-red);text-decoration:none">Email us instead \u2192</a></div>';
+  }
+
   componentDidUpdate(prev){
     if(this.ensureLoop) this.ensureLoop();
+    // (re)mount the form whenever the connect tab opens, the facility changes,
+    // or the visitor switches language
+    if(this.state.storyStep===3 && (prev.storyStep!==3 || prev.activeId!==this.state.activeId || prev.lang!==this.state.lang)){
+      this.mountHubspotForm();
+    }
     if(this.ready && (prev.isMobile!==this.state.isMobile || prev.sheetOpen!==this.state.sheetOpen)){
       this.applyLayout(); this.setupSize();
     }
@@ -1197,7 +1293,6 @@ class Component extends DCLogic {
   onOverlayClick = ()=>{ this.onClose(); }
   stopProp = (e)=>{ e.stopPropagation(); }
   onNext = ()=>{ this.setState(s=>{ const loc=this.locations.find(l=>l.id===s.activeId); const steps=(loc&&loc.videoUrl)?[0,1,2,3]:[0,1,3]; const i=Math.max(0,steps.indexOf(s.storyStep)); return {storyStep: steps[Math.min(steps.length-1,i+1)]}; }); }
-  onSubmit = (e)=>{ e.preventDefault(); this.setState({submitted:true}); }
   onToggleSheet = ()=>{ if(this.state.isMobile) this.setState(s=>({sheetOpen:!s.sheetOpen})); }
   onZoomIn = ()=>{ this.scale = Math.min(this.baseScale*4.2, this.scale*1.25); this.projection.scale(this.scale); }
   onZoomOut = ()=>{ this.scale = Math.max(this.baseScale*0.7, this.scale/1.25); this.projection.scale(this.scale); }
@@ -1296,10 +1391,9 @@ class Component extends DCLogic {
       stepLabel: this.t('step', {n:stepPos+1, total:steps.length}),
       T, langs, activeLangLabel, langOpen: s.langOpen, onToggleLang: this.onToggleLang,
       thanksBody: this.t('thanksBody', {city: active ? active.city : ''}),
-      submitted: s.submitted, notSubmitted: !s.submitted,
       overlayStyle, panelStyle,
       onOverlayClick:this.onOverlayClick, stopProp:this.stopProp, onClose:this.onClose,
-      onNext:this.onNext, onSubmit:this.onSubmit, onToggleSheet:this.onToggleSheet,
+      onNext:this.onNext, onToggleSheet:this.onToggleSheet,
       onZoomIn:this.onZoomIn, onZoomOut:this.onZoomOut, onReset:this.onReset,
     };
   }
