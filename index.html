@@ -855,19 +855,18 @@ class Component extends DCLogic {
   // shortcode:  hubspot type="form" portal="50081784" id="5ea1edad-..."
   // Standalone builds mount the same form through the v2 embed API below.
   HS_PORTAL = '50081784';
-  // One form per language. HubSpot serves field labels from the form definition
-  // in the portal, NOT from ui-strings.csv, so a translated form is a separate
-  // form in HubSpot. Drop its id in beside the matching language code and that
-  // language switches over; anything left null falls back to the English form.
+  // Two forms only: Japanese visitors get the Japanese form, every other
+  // language gets the English one. HubSpot serves field labels from the form
+  // definition in the portal, so these are two separate forms there.
+  //   EN  hubspot type="form" portal="50081784" id="5ea1edad-5848-4b1f-afc4-cae890083d55"
+  //   JA  hubspot type="form" portal="50081784" id="dd09356e-2a6d-451a-8c6c-88916932bb51"
   HS_FORM_BY_LANG = {
     en: '5ea1edad-5848-4b1f-afc4-cae890083d55',
-    ja: null, de: null, fr: null, zh: null, ko: null
+    ja: 'dd09356e-2a6d-451a-8c6c-88916932bb51'
   };
   // If the form never appears, the portal is probably not on na1 —
   // switch this to 'na2' / 'eu1' to match the portal's data centre.
   HS_REGION = 'na1';
-  // Our language codes → HubSpot locales (validation + legal copy).
-  HS_LOCALE = { en:'en', ja:'ja', de:'de', fr:'fr', zh:'zh-cn', ko:'ko' };
 
   mountHubspotForm(){
     const host = document.getElementById('aj-hs-form');
@@ -900,7 +899,7 @@ class Component extends DCLogic {
       formId:   this.HS_FORM_BY_LANG[this.state.lang] || this.HS_FORM_BY_LANG.en,
       region:   this.HS_REGION,
       target:   '#aj-hs-form-target',
-      locale:   this.HS_LOCALE[this.state.lang] || 'en'
+      locale:   this.state.lang === 'ja' ? 'ja' : 'en'
     });
 
     // Drop the spinner the moment the frame reports a real height — the embed
