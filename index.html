@@ -230,13 +230,13 @@
           <button onClick="{{ onClose }}" aria-label="{{ T.close }}" style="position:absolute;top:16px;right:16px;width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.94);border:0;cursor:pointer;font:400 17px/1 var(--font-sans);color:var(--fg1);display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-sm)" style-hover="background:#fff">✕</button>
           <sc-if value="{{ active.hasSiteName }}" hint-placeholder-val="{{ true }}">
             <div style="position:absolute;left:26px;right:26px;bottom:18px">
-              <div style="font:var(--overline);letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.86)">{{ active.city }}</div>
+              <div style="font:var(--overline);letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.86);white-space:pre-line">{{ active.city }}</div>
               <h2 style="font:var(--h1);color:#fff;margin:6px 0 0;letter-spacing:var(--tracking-tight)">{{ active.name }}</h2>
             </div>
           </sc-if>
           <sc-if value="{{ active.noSiteName }}" hint-placeholder-val="{{ false }}">
             <div style="position:absolute;left:26px;right:26px;bottom:14px">
-              <div style="font:var(--overline);letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.92)">{{ active.city }}</div>
+              <div style="font:var(--overline);letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.92);white-space:pre-line">{{ active.city }}</div>
             </div>
           </sc-if>
         </div>
@@ -261,9 +261,13 @@
                 <div style="flex:1;min-width:120px;background:var(--aj-blush);border-radius:var(--radius-md);padding:16px 18px"><div style="font:400 30px/1 var(--font-display);color:var(--aj-red)">{{ active.capCount }}</div><div style="font:var(--caption);color:var(--fg2);letter-spacing:.08em;text-transform:uppercase;margin-top:7px">{{ T.cardCapabilities }}</div></div>
                 <div style="flex:1;min-width:120px;background:var(--aj-blush);border-radius:var(--radius-md);padding:16px 18px"><div style="font:400 30px/1 var(--font-display);color:var(--aj-red)">{{ active.focusShort }}</div><div style="font:var(--caption);color:var(--fg2);letter-spacing:.08em;text-transform:uppercase;margin-top:7px">{{ T.cardCoreModality }}</div></div>
               </div>
-              <div style="display:flex;align-items:flex-start;gap:10px;padding-top:18px;border-top:1px solid var(--border)">
-                <span style="width:9px;height:9px;border-radius:50%;background:var(--aj-red);margin-top:5px;flex:none"></span>
-                <p style="font:var(--body-sm);color:var(--fg2);margin:0">{{ active.address }}</p>
+              <div style="display:flex;flex-direction:column;gap:10px;padding-top:18px;border-top:1px solid var(--border)">
+                <sc-for list="{{ active.addressLines }}" as="addr" hint-placeholder-count="1">
+                  <div style="display:flex;align-items:flex-start;gap:10px">
+                    <span style="width:9px;height:9px;border-radius:50%;background:var(--aj-red);margin-top:5px;flex:none"></span>
+                    <p style="font:var(--body-sm);color:var(--fg2);margin:0">{{ addr }}</p>
+                  </div>
+                </sc-for>
               </div>
             </div>
           </sc-if>
@@ -393,7 +397,7 @@ class Component extends DCLogic {
       cardEmployees:'Employees', cardCapabilities:'Capabilities', cardCoreModality:'Core modality',
       capsOverline:'MAKING A DIFFERENCE', capsHeading:'Research & Capabilities',
       tourOverline:'VIEW INSIDE', tourHeading:'Virtual Tour', tourFullscreen:'Play fullscreen',
-      connectOverline:'FORGE AHEAD',
+      connectOverline:'UNLEASH POTENTIAL',
       connectIntro:'Tell us about your program and our team will be in touch.',
       fieldName:'Full name', fieldEmail:'Work email', fieldService:'Service of interest',
       fieldMessage:'How can we help?', generalInquiry:'General inquiry', submit:'Send inquiry',
@@ -422,7 +426,7 @@ class Component extends DCLogic {
     // when it parses; if the fetch or parse fails the map still renders from here
     // and a warning chip appears next to "Our Global Network".
     this.fallbackLocations = [
-      { id:'forge', region:'americas', shortName:'Gene Therapy', name:'Forge Biologics', city:'Columbus, Ohio', country:'United States',
+      { id:'forge', sortOrder:5, region:'americas', shortName:'Gene Therapy', name:'Forge Biologics', city:'Columbus, Ohio', country:'United States',
         lat:39.882, lng:-83.102, employees:350, focusTag:'AAV & LVV', focusShort:'AAV',
         photo:'assets/photos/forge%20building%20.jpg',
         videoUrl:'https://www.forgebiologics.com/wp-content/uploads/2026/01/Journey_Of_Hope2026.mp4',
@@ -438,14 +442,14 @@ class Component extends DCLogic {
           {name:'Analytical Development', icon:'microscope', detail:'Lorem ipsum dolor sit amet consectetur adipiscing elit. Sit amet consectetur adipiscing elit quisque faucibus ex. Adipiscing elit quisque faucibus ex sapien vitae pellentesque.'},
           {name:'AAV Drug Product Fill-Finish', icon:'vial', detail:'Lorem ipsum dolor sit amet consectetur adipiscing elit. Sit amet consectetur adipiscing elit quisque faucibus ex. Adipiscing elit quisque faucibus ex sapien vitae pellentesque.'},
         ] },
-      { id:'belgium', region:'europe', shortName:'Small Molecule', name:'Small Molecule', city:'Wetteren, Belgium', country:'Belgium',
+      { id:'belgium', sortOrder:1, region:'europe', shortName:'Small Molecule', name:'Small Molecule', city:'Wetteren, Belgium\nBalen, Belgium', country:'Belgium',
         lat:51.001, lng:3.885, employees:250, focusTag:'API, HPAPI, & Continuous Flow Chemistry', focusShort:'API',
         photo:'assets/photos/ajinomoto-drone.jpg',
         videoUrl:'https://players.brightcove.net/6050660078001/default_default/index.html?videoId=6339493488112',
         headline:'Complex Chemistry at Commercial Scale.',
         overview:'Our Wetteren site is where demanding small-molecule chemistry becomes reliable supply. From first process development through commercial volumes — including high-potency APIs and continuous flow — we engineer routes that are safe, efficient, and built to scale.',
-        contactHeadline:'Scale your API program with our Belgium team.',
-        address:'Cooppallaan 91, B-9230 Wetteren, Belgium',
+        contactHeadline:'Scale your API program with our Small Molecule team.',
+        address:'Cooppallaan 91, B-9230 Wetteren, Belgium\nJapanse-Kerselarenlaan 1, 2490 Balen, Belgium',
         pillars:['expertise','quality','excellence'],
         capabilities:[
           {name:'API Process Development', icon:'benzene', detail:'Lorem ipsum dolor sit amet consectetur adipiscing elit. Sit amet consectetur adipiscing elit quisque faucibus ex. Adipiscing elit quisque faucibus ex sapien vitae pellentesque.'},
@@ -453,7 +457,7 @@ class Component extends DCLogic {
           {name:'High Potency API Manufacturing', icon:'vial', detail:'Lorem ipsum dolor sit amet consectetur adipiscing elit. Sit amet consectetur adipiscing elit quisque faucibus ex. Adipiscing elit quisque faucibus ex sapien vitae pellentesque.'},
           {name:'Continuous Flow Chemistry', icon:'molecule', detail:'Lorem ipsum dolor sit amet consectetur adipiscing elit. Sit amet consectetur adipiscing elit quisque faucibus ex. Adipiscing elit quisque faucibus ex sapien vitae pellentesque.'},
         ] },
-      { id:'osaka', region:'japan', shortName:'Oligo', name:'Oligonucleotides', city:'Osaka, Japan', country:'Japan',
+      { id:'osaka', sortOrder:3, region:'japan', shortName:'Oligo', name:'Oligonucleotides', city:'Osaka, Japan', country:'Japan',
         lat:34.836, lng:135.561, employees:200, focusTag:'Oligo & Peptides', focusShort:'Oligo',
         photo:'assets/photos/AJI%20Osaka%202nd%20edit.14_54_01_13.jpg',
         videoUrl:'https://player.vimeo.com/video/1174154077?h=cee1f72eaa',
@@ -469,7 +473,7 @@ class Component extends DCLogic {
           {name:'Phosphorodiamidate Morpholino Oligonucleotides (PMO)', icon:'molecule', detail:'Lorem ipsum dolor sit amet consectetur adipiscing elit. Sit amet consectetur adipiscing elit quisque faucibus ex. Adipiscing elit quisque faucibus ex sapien vitae pellentesque.'},
           {name:'Large Scale cGMP Manufacturing', icon:'bioreactor', detail:'Lorem ipsum dolor sit amet consectetur adipiscing elit. Sit amet consectetur adipiscing elit quisque faucibus ex. Adipiscing elit quisque faucibus ex sapien vitae pellentesque.'},
         ] },
-      { id:'ajicap', region:'japan', markerGroup:'R&D', shortName:'ADC Services', name:'AJICAP®', city:'Kawasaki, Japan', country:'Japan',
+      { id:'ajicap', sortOrder:7, region:'japan', markerGroup:'R&D', shortName:'ADC Services', name:'AJICAP®', city:'Kawasaki, Japan', country:'Japan',
         lat:35.5186, lng:139.7363, employees:300, focusTag:'Site-Specific Conjugation', focusShort:'ADC',
         photo:'assets/photos/Kawasaki%20R%26D%20%28ABL%29%20Building_2.jpg',
         videoUrl:'https://player.vimeo.com/video/1174497304?h=861f047299',
@@ -483,7 +487,7 @@ class Component extends DCLogic {
           {name:'Fermentation & Purification Process Development', icon:'bioreactor', detail:'Lorem ipsum dolor sit amet consectetur adipiscing elit. Sit amet consectetur adipiscing elit quisque faucibus ex. Adipiscing elit quisque faucibus ex sapien vitae pellentesque.'},
           {name:'Analytical Development', icon:'microscope', detail:'Lorem ipsum dolor sit amet consectetur adipiscing elit. Sit amet consectetur adipiscing elit quisque faucibus ex. Adipiscing elit quisque faucibus ex sapien vitae pellentesque.'},
         ] },
-      { id:'tokai', region:'japan', shortName:'Peptide Synthesis', name:'AJIPHASE®', city:'Tokai, Japan', country:'Japan',
+      { id:'tokai', sortOrder:4, region:'japan', shortName:'Peptide Synthesis', name:'AJIPHASE®', city:'Tokai, Japan', country:'Japan',
         lat:34.965, lng:136.624, employees:350, focusTag:'Hybrid-Phase Synthesis', focusShort:'Peptide',
         photo:'assets/photos/AJI%20Tokai%20Site.jpg',
         videoUrl:'https://player.vimeo.com/video/1176299017?h=f34ac971d5',
@@ -500,7 +504,7 @@ class Component extends DCLogic {
           {name:'GLP-1 Analog Manufacturing', icon:'vial', detail:'Lorem ipsum dolor sit amet consectetur adipiscing elit. Sit amet consectetur adipiscing elit quisque faucibus ex. Adipiscing elit quisque faucibus ex sapien vitae pellentesque.'},
           {name:'Analytical Development', icon:'microscope', detail:'Lorem ipsum dolor sit amet consectetur adipiscing elit. Sit amet consectetur adipiscing elit quisque faucibus ex. Adipiscing elit quisque faucibus ex sapien vitae pellentesque.'},
         ] },
-      { id:'india', region:'india', shortName:'API', name:'API Production', city:'Visakhapatnam, India', country:'India',
+      { id:'india', sortOrder:2, region:'india', shortName:'API', name:'API Production', city:'Visakhapatnam, India', country:'India',
         lat:17.686, lng:83.218, employees:225, focusTag:'Small Molecule API', focusShort:'API',
         photo:'assets/photos/001-campus-aerial-enhanced.png',
         videoUrl:'https://players.brightcove.net/6050660078001/default_default/index.html?videoId=6339493488112',
@@ -515,7 +519,7 @@ class Component extends DCLogic {
           {name:'High Potency API Manufacturing', icon:'vial', detail:'Lorem ipsum dolor sit amet consectetur adipiscing elit. Sit amet consectetur adipiscing elit quisque faucibus ex. Adipiscing elit quisque faucibus ex sapien vitae pellentesque.'},
           {name:'Continuous Flow Chemistry', icon:'molecule', detail:'Lorem ipsum dolor sit amet consectetur adipiscing elit. Sit amet consectetur adipiscing elit quisque faucibus ex. Adipiscing elit quisque faucibus ex sapien vitae pellentesque.'},
         ] },
-      { id:'protein', region:'japan', markerGroup:'R&D', shortName:'Protein', name:'Corynex®', city:'Kawasaki, Japan', country:'Japan',
+      { id:'protein', sortOrder:6, region:'japan', markerGroup:'R&D', shortName:'Protein', name:'Corynex®', city:'Kawasaki, Japan', country:'Japan',
         lat:35.5186, lng:139.7363, employees:275, focusTag:'VHH & Nanobodies', focusShort:'BioProcess',
         photo:'assets/photos/Kawasaki%20with%20edits%20-%20feb%2010%202026.00_00_02_05.jpg',
         videoUrl:'https://player.vimeo.com/video/1174768410?h=a795273d46',
@@ -940,7 +944,7 @@ class Component extends DCLogic {
   }
 
   hsFallbackHtml(loc){
-    const site = loc ? (loc.siteName || loc.city || '') : '';
+    const site = loc ? (loc.siteName || String(loc.city||'').split('\n')[0] || '') : '';
     const subj = encodeURIComponent('Inquiry' + (site ? ' \u2014 ' + site : ''));
     return '<div style="padding:24px;border:1px solid var(--border-strong);border-radius:var(--radius-sm);background:#fff">'
       + '<p style="font:var(--body-sm);color:var(--fg1);margin:0 0 12px">The contact form could not load\u2014it may be blocked by a privacy extension or cookie settings.</p>'
@@ -1334,7 +1338,7 @@ class Component extends DCLogic {
       return a.shortName.localeCompare(b.shortName);
     }).map(l=>{
       const isActive = l.id===s.activeId;
-      return { id:l.id, shortName:l.shortName, city:l.city, focusTag:l.focusTag, employees:l.employees,
+      return { id:l.id, shortName:l.shortName, city:String(l.city||'').split('\n')[0], focusTag:l.focusTag, employees:l.employees,
         rowStyle: rowBase + (isActive ? 'background:#FEEBE3;border:1px solid rgba(238,28,38,.28);' : 'background:transparent;border:1px solid transparent;'),
         rowHover: isActive ? 'background:#FEEBE3;border-color:rgba(238,28,38,.28);' : 'background:#faf6f1;border-color:var(--border);',
         onClick:()=>this.onOpenLocation(l.id), onEnter:()=>{ this.hoverId=l.id; }, onLeave:()=>{ this.hoverId=null; } };
@@ -1344,6 +1348,7 @@ class Component extends DCLogic {
     let active = null;
     if(loc){
       active = Object.assign({}, loc, {
+        addressLines: String(loc.address||'').split('\n').map(x=>x.trim()).filter(Boolean),
         capCount: loc.capabilities.length,
         hasSiteName: loc.siteName === undefined ? true : !!String(loc.siteName).trim(),
         noSiteName: loc.siteName === undefined ? false : !String(loc.siteName).trim(),
@@ -1389,7 +1394,7 @@ class Component extends DCLogic {
       storyTabs, showNext, nextLabel,
       stepLabel: this.t('step', {n:stepPos+1, total:steps.length}),
       T, langs, activeLangLabel, langOpen: s.langOpen, onToggleLang: this.onToggleLang,
-      thanksBody: this.t('thanksBody', {city: active ? active.city : ''}),
+      thanksBody: this.t('thanksBody', {city: active ? String(active.city||'').split('\n')[0] : ''}),
       overlayStyle, panelStyle,
       onOverlayClick:this.onOverlayClick, stopProp:this.stopProp, onClose:this.onClose,
       onNext:this.onNext, onToggleSheet:this.onToggleSheet,
