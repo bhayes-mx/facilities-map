@@ -259,7 +259,7 @@
               <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:22px">
                 <div style="flex:1;min-width:120px;background:var(--aj-blush);border-radius:var(--radius-md);padding:16px 18px"><div style="font:400 30px/1 var(--font-display);color:var(--aj-red)">{{ active.employees }}</div><div style="font:var(--caption);color:var(--fg2);letter-spacing:.08em;text-transform:uppercase;margin-top:7px">{{ T.cardEmployees }}</div></div>
                 <div style="flex:1;min-width:120px;background:var(--aj-blush);border-radius:var(--radius-md);padding:16px 18px"><div style="font:400 30px/1 var(--font-display);color:var(--aj-red)">{{ active.capCount }}</div><div style="font:var(--caption);color:var(--fg2);letter-spacing:.08em;text-transform:uppercase;margin-top:7px">{{ T.cardCapabilities }}</div></div>
-                <div style="flex:1;min-width:120px;background:var(--aj-blush);border-radius:var(--radius-md);padding:16px 18px"><div style="font:400 30px/1 var(--font-display);color:var(--aj-red)">{{ active.focusShort }}</div><div style="font:var(--caption);color:var(--fg2);letter-spacing:.08em;text-transform:uppercase;margin-top:7px">{{ T.cardCoreModality }}</div></div>
+                <div style="flex:1;min-width:120px;background:var(--aj-blush);border-radius:var(--radius-md);padding:16px 18px"><div style="font-family:var(--font-display);font-weight:400;font-size:{{ active.focusShortSize }};line-height:1.05;color:var(--aj-red);overflow-wrap:break-word;hyphens:auto">{{ active.focusShort }}</div><div style="font:var(--caption);color:var(--fg2);letter-spacing:.08em;text-transform:uppercase;margin-top:7px">{{ T.cardCoreModality }}</div></div>
               </div>
               <div style="display:flex;flex-direction:column;gap:10px;padding-top:18px;border-top:1px solid var(--border)">
                 <sc-for list="{{ active.addressLines }}" as="addr" hint-placeholder-count="1">
@@ -1349,6 +1349,12 @@ class Component extends DCLogic {
     if(loc){
       active = Object.assign({}, loc, {
         addressLines: String(loc.address||'').split('\n').map(x=>x.trim()).filter(Boolean),
+        // Core-modality stat: 30px fits ~9 characters per word in the card;
+        // longer words (e.g. "Intermediates") step down, never below 20px.
+        focusShortSize: (function(t){
+          const longest = String(t||'').split(/\s+/).reduce((m,w)=>Math.max(m,w.length),0);
+          return Math.max(20, Math.min(30, Math.floor(30*9/Math.max(longest,1)))) + 'px';
+        })(loc.focusShort),
         capCount: loc.capabilities.length,
         hasSiteName: loc.siteName === undefined ? true : !!String(loc.siteName).trim(),
         noSiteName: loc.siteName === undefined ? false : !String(loc.siteName).trim(),
