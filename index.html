@@ -652,6 +652,29 @@ class Component extends DCLogic {
   }
 
 
+
+  // Left rail only: multi-city sites collapse to one line ("Wetteren & Balen, Belgium"),
+  // and HPAPI is dropped from the tag so the row stays on two lines.
+  railCity(city){
+    const lines = String(city||'').split('\n').map(s=>s.trim()).filter(Boolean);
+    if(lines.length < 2) return lines[0] || '';
+    const cjk = /[\u3040-\u30ff]/.test(lines[0]) ? '・' : /[\u4e00-\u9fff]/.test(lines[0]) ? '、' : /[\uac00-\ud7af]/.test(lines[0]) ? '·' : null;
+    let suf = lines[0];
+    lines.forEach(l=>{ while(!l.endsWith(suf)) suf = suf.slice(1); });
+    const ci = suf.indexOf(','); suf = ci >= 0 ? suf.slice(ci) : '';
+    if(suf) return lines.map(l=>l.slice(0, l.length - suf.length)).join(' & ') + suf;
+    let pre = lines[0];
+    lines.forEach(l=>{ while(!l.startsWith(pre)) pre = pre.slice(0,-1); });
+    if(pre) return pre + lines.map(l=>l.slice(pre.length)).join(cjk || ' & ');
+    return lines.join(' · ');
+  }
+  railTag(tag){
+    return String(tag||'')
+      .replace(/HPAPI\s*[,、・]?\s*/g, '')
+      .replace(/[,、]\s*(?=(& |et |und |y |en |与|및 ))/g, ' ')
+      .replace(/\s{2,}/g, ' ').replace(/[,、・\s]+$/, '').trim();
+  }
+
   // ---- Weglot language detection ----------------------------------------
   // Weglot rewrites the host page URL with a language prefix (/fr/..., /zh-cn/...)
   // or a subdomain (fr.example.com). English is the untranslated default and
@@ -1338,7 +1361,7 @@ class Component extends DCLogic {
       return a.shortName.localeCompare(b.shortName);
     }).map(l=>{
       const isActive = l.id===s.activeId;
-      return { id:l.id, shortName:l.shortName, city:String(l.city||'').split('\n')[0], focusTag:l.focusTag, employees:l.employees,
+      return { id:l.id, shortName:l.shortName, city:this.railCity(l.city), focusTag:this.railTag(l.focusTag), employees:l.employees,
         rowStyle: rowBase + (isActive ? 'background:#FEEBE3;border:1px solid rgba(238,28,38,.28);' : 'background:transparent;border:1px solid transparent;'),
         rowHover: isActive ? 'background:#FEEBE3;border-color:rgba(238,28,38,.28);' : 'background:#faf6f1;border-color:var(--border);',
         onClick:()=>this.onOpenLocation(l.id), onEnter:()=>{ this.hoverId=l.id; }, onLeave:()=>{ this.hoverId=null; } };
