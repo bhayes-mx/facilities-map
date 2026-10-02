@@ -8,21 +8,17 @@
 <body>
 <x-dc>
 <helmet>
+  <link rel="stylesheet" href="https://use.typekit.net/trw5dyt.css">
   <style>
     /* Aji Bio-Pharma design tokens — inlined so this page has no _ds/ dependency.
-       Font files live in assets/fonts/. */
+       Kaisei Decol files live in assets/fonts/; FF DIN loads from Adobe Fonts (kit trw5dyt). */
     @font-face { font-family:"Kaisei Decol"; src:url("assets/fonts/KaiseiDecol-Regular.ttf") format("truetype"); font-weight:400; font-style:normal; font-display:swap; }
     @font-face { font-family:"Kaisei Decol"; src:url("assets/fonts/KaiseiDecol-Medium.ttf") format("truetype"); font-weight:500; font-style:normal; font-display:swap; }
     @font-face { font-family:"Kaisei Decol"; src:url("assets/fonts/KaiseiDecol-Bold.ttf") format("truetype"); font-weight:700; font-style:normal; font-display:swap; }
-    @font-face { font-family:"DIN Pro"; src:url("assets/fonts/dinpro_light.otf") format("opentype"); font-weight:300; font-style:normal; font-display:swap; }
-    @font-face { font-family:"DIN Pro"; src:url("assets/fonts/dinpro.otf") format("opentype"); font-weight:400; font-style:normal; font-display:swap; }
-    @font-face { font-family:"DIN Pro"; src:url("assets/fonts/dinpro_medium.otf") format("opentype"); font-weight:500; font-style:normal; font-display:swap; }
-    @font-face { font-family:"DIN Pro"; src:url("assets/fonts/dinpro_bold.otf") format("opentype"); font-weight:700; font-style:normal; font-display:swap; }
-    @font-face { font-family:"DIN Pro"; src:url("assets/fonts/dinpro_black.otf") format("opentype"); font-weight:900; font-style:normal; font-display:swap; }
 
     :root {
       --font-display: "Kaisei Decol", Georgia, "Times New Roman", serif;
-      --font-sans: "DIN Pro", "Helvetica Neue", Arial, sans-serif;
+      --font-sans: "ff-din-paneuropean", "Helvetica Neue", Arial, sans-serif;
 
       --aj-red: #EE1C26;
       --aj-blush: #FEEBE3;
@@ -117,7 +113,7 @@
 
   <!-- ============ RAIL ============ -->
   <aside ref="{{ railRef }}" style="background:#fff;box-sizing:border-box;display:flex;flex-direction:column;overflow:hidden;position:relative;width:340px;height:100vh;flex:none;border-right:1px solid var(--border);z-index:5">
-    <div ref="{{ handleRef }}" onClick="{{ onToggleSheet }}" style="display:none;padding:8px 0 4px;cursor:pointer;flex:none;text-align:center"><span style="{{ sheetArrowStyle }}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 15l6-6 6 6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg></span><span style="display:block;width:44px;height:5px;border-radius:3px;background:#d6d0c6;margin:0 auto"></span></div>
+    <div ref="{{ handleRef }}" onClick="{{ onToggleSheet }}" onPointerDown="{{ onHandleDown }}" style="display:none;padding:10px 0 6px;cursor:grab;flex:none;text-align:center;touch-action:none"><span style="{{ sheetArrowStyle }}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 15l6-6 6 6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg></span><span style="display:block;width:44px;height:5px;border-radius:3px;background:#d6d0c6;margin:0 auto"></span></div>
 
     <div class="aj-scroll" style="{{ railScrollStyle }}">
 
@@ -1319,7 +1315,40 @@ class Component extends DCLogic {
   onOverlayClick = ()=>{ this.onClose(); }
   stopProp = (e)=>{ e.stopPropagation(); }
   onNext = ()=>{ this.setState(s=>{ const loc=this.locations.find(l=>l.id===s.activeId); const steps=(loc&&loc.videoUrl)?[0,1,2,3]:[0,1,3]; const i=Math.max(0,steps.indexOf(s.storyStep)); return {storyStep: steps[Math.min(steps.length-1,i+1)]}; }); }
-  onToggleSheet = ()=>{ if(this.state.isMobile) this.setState(s=>({sheetOpen:!s.sheetOpen})); }
+  onToggleSheet = ()=>{ if(this._suppressClick){ this._suppressClick=false; return; } if(this.state.isMobile) this.setState(s=>({sheetOpen:!s.sheetOpen})); }
+  // Mobile drawer drag: the handle follows the finger between the peek (172px)
+  // and open (88vh) heights, then snaps. A flick (>60px) decides direction;
+  // otherwise it snaps to whichever state is nearer. Taps still toggle.
+  onHandleDown = (e)=>{
+    if(!this.state.isMobile || !this.railEl) return;
+    this._drag = { y:e.clientY, h:this.railEl.getBoundingClientRect().height, moved:false, tr:this.railEl.style.transition };
+    window.addEventListener('pointermove', this.onHandleMove);
+    window.addEventListener('pointerup', this.onHandleUp, { once:true });
+    window.addEventListener('pointercancel', this.onHandleUp, { once:true });
+  }
+  onHandleMove = (e)=>{
+    const d = this._drag; if(!d) return;
+    const dy = e.clientY - d.y;
+    if(!d.moved){ if(Math.abs(dy) < 6) return; d.moved = true; this.railEl.style.transition = 'none'; }
+    const max = window.innerHeight * 0.88;
+    this.railEl.style.height = Math.max(172, Math.min(max, d.h - dy)) + 'px';
+  }
+  onHandleUp = (e)=>{
+    window.removeEventListener('pointermove', this.onHandleMove);
+    window.removeEventListener('pointerup', this.onHandleUp);
+    window.removeEventListener('pointercancel', this.onHandleUp);
+    const d = this._drag; this._drag = null;
+    if(!d || !d.moved) return;
+    this._suppressClick = true;
+    setTimeout(()=>{ this._suppressClick = false; }, 350);
+    this.railEl.style.transition = d.tr;
+    const dy = e.clientY - d.y;
+    const max = window.innerHeight * 0.88;
+    const h = this.railEl.getBoundingClientRect().height;
+    const open = Math.abs(dy) > 60 ? dy < 0 : h > (172 + max) / 2;
+    if(open === this.state.sheetOpen){ this.applyLayout(); this.setupSize(); }
+    else this.setState({ sheetOpen:open });
+  }
   onZoomIn = ()=>{ this.scale = Math.min(this.baseScale*4.2, this.scale*1.25); this.projection.scale(this.scale); }
   onZoomOut = ()=>{ this.scale = Math.max(this.baseScale*0.7, this.scale/1.25); this.projection.scale(this.scale); }
   onReset = ()=>{ this.autoRotate=false; this.setState({filter:'all'}); if(this.baseTranslate) this.projection.translate(this.baseTranslate); this.flyTo([140,18], this.baseScale, ()=>{ this.autoRotate=true; }); }
@@ -1340,7 +1369,7 @@ class Component extends DCLogic {
     const hlBodyStyle = 'font:var(--body-sm);margin:12px 0 0;color:var(--fg2)';
     const hintStyle = 'position:absolute;left:24px;bottom:24px;z-index:4;pointer-events:none;font:var(--overline);letter-spacing:.14em;text-transform:uppercase;color:'+(redMode?'rgba(255,255,255,.95)':'var(--fg3)');
     const T = this.strings();
-    const regs = [['all',T.regionAll],['europe',T.regionEurope],['japan',T.regionJapan],['india',T.regionIndia],['americas',T.regionAmericas]];
+    const regs = [['all',T.regionAll],['europe',T.regionEurope],['india',T.regionIndia],['japan',T.regionJapan],['americas',T.regionAmericas]];
     const regions = regs.map(([key,label])=>({ key, label, onClick:()=>this.onSelectRegion(key), style:this.regStyle(s.filter===key) }));
 
     const langs = this.LANGS.map(l=>({
@@ -1426,7 +1455,7 @@ class Component extends DCLogic {
       thanksBody: this.t('thanksBody', {city: active ? String(active.city||'').split('\n')[0] : ''}),
       overlayStyle, panelStyle,
       onOverlayClick:this.onOverlayClick, stopProp:this.stopProp, onClose:this.onClose,
-      onNext:this.onNext, onToggleSheet:this.onToggleSheet,
+      onNext:this.onNext, onToggleSheet:this.onToggleSheet, onHandleDown:this.onHandleDown,
       onZoomIn:this.onZoomIn, onZoomOut:this.onZoomOut, onReset:this.onReset,
     };
   }
