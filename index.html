@@ -9,6 +9,7 @@
 <x-dc>
 <helmet>
   <link rel="stylesheet" href="https://use.typekit.net/trw5dyt.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=BIZ+UDPMincho:wght@400;700&display=swap">
   <style>
     /* Aji Bio-Pharma design tokens — inlined so this page has no _ds/ dependency.
        Kaisei Decol files live in assets/fonts/; FF DIN loads from Adobe Fonts (kit trw5dyt). */
@@ -87,6 +88,25 @@
 
       --tracking-overline: 0.16em;
       --tracking-tight: -0.01em;
+    }
+
+    /* CJK typography — applies only when the map language is ja / zh / ko
+       (syncDocLang() sets <html lang>). EN / FR / DE keep Kaisei Decol + FF DIN.
+       Headlines: BIZ UDPMincho Medium (installed on Windows) → BIZ UDPMincho (Google Fonts).
+       Body: Yu Gothic (installed on Windows + macOS).
+       The Japanese faces have no Hangul and miss some Simplified glyphs, so zh / ko
+       fall back per-glyph to their native system faces. */
+    :root:lang(ja){
+      --font-display: "BIZ UDPMincho Medium", "BIZ UDPMincho", "Yu Mincho", YuMincho, serif;
+      --font-sans: YuGothic, "Yu Gothic Medium", "Yu Gothic", "Hiragino Sans", sans-serif;
+    }
+    :root:lang(zh){
+      --font-display: "BIZ UDPMincho Medium", "BIZ UDPMincho", "Songti SC", "SimSun", "Noto Serif SC", serif;
+      --font-sans: YuGothic, "Yu Gothic Medium", "Yu Gothic", "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+    }
+    :root:lang(ko){
+      --font-display: "BIZ UDPMincho Medium", "BIZ UDPMincho", "AppleMyungjo", "Batang", "Noto Serif KR", serif;
+      --font-sans: YuGothic, "Yu Gothic Medium", "Yu Gothic", "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", sans-serif;
     }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
@@ -192,6 +212,7 @@
     </div>
 
     <div style="position:absolute;right:22px;bottom:22px;z-index:5;display:flex;flex-direction:column;gap:9px;align-items:flex-end">
+      <sc-if value="{{ showLangPicker }}" hint-placeholder-val="{{ false }}">
       <div style="position:relative;margin-bottom:2px">
         <button onClick="{{ onToggleLang }}" aria-label="{{ T.language }}" style="display:inline-flex;align-items:center;gap:9px;padding:8px 13px;border-radius:999px;background:#fff;border:1px solid var(--border);box-shadow:var(--shadow-sm);cursor:pointer;font:700 11px/1 var(--font-sans);letter-spacing:.05em;color:var(--fg1);transition:box-shadow .18s var(--ease-out)" style-hover="box-shadow:var(--shadow-md)">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.9"></circle><path d="M3.2 9.5h17.6M3.2 14.5h17.6M12 3c2.6 2.7 2.6 15.3 0 18M12 3c-2.6 2.7-2.6 15.3 0 18" stroke="currentColor" stroke-width="1.4"></path></svg>
@@ -206,6 +227,7 @@
           </div>
         </sc-if>
       </div>
+      </sc-if>
       <button onClick="{{ onZoomIn }}" aria-label="{{ T.zoomIn }}" style="width:42px;height:42px;border-radius:50%;background:#fff;border:1px solid var(--border);box-shadow:var(--shadow-sm);cursor:pointer;font:400 22px/1 var(--font-sans);color:var(--fg1)" style-hover="box-shadow:var(--shadow-md)">+</button>
       <button onClick="{{ onZoomOut }}" aria-label="{{ T.zoomOut }}" style="width:42px;height:42px;border-radius:50%;background:#fff;border:1px solid var(--border);box-shadow:var(--shadow-sm);cursor:pointer;font:400 22px/1 var(--font-sans);color:var(--fg1)" style-hover="box-shadow:var(--shadow-md)">−</button>
       <button type="button" onClick="{{ onReset }}" style="margin-top:5px;display:inline-flex;align-items:center;gap:11px;padding:4px 4px 4px 15px;border-radius:999px;background:#fff;border:1.5px solid var(--fg1);box-shadow:var(--shadow-sm);cursor:pointer;font:700 10.5px/1 var(--font-sans);letter-spacing:.06em;text-transform:uppercase;color:var(--fg1);transition:transform .18s var(--ease-out),box-shadow .18s var(--ease-out)" style-hover="box-shadow:var(--shadow-md);transform:translateY(-1px)"><span>{{ T.resetGlobe }}</span><span style="width:29px;height:29px;border-radius:50%;background:var(--aj-red);display:flex;align-items:center;justify-content:center;flex:none"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M4 12h13.5M12 5.5l6.5 6.5-6.5 6.5" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"></path></svg></span></button>
@@ -250,7 +272,7 @@
           <sc-if value="{{ showOverview }}" hint-placeholder-val="{{ true }}">
             <div style="animation:ajup .34s var(--ease-out)">
               <div style="font:var(--overline);letter-spacing:var(--tracking-overline);text-transform:uppercase;color:var(--aj-red)">{{ active.focusTag }}</div>
-              <h3 style="font: var(--display-2); font-size: 28px; line-height: 1.1; color: var(--fg1); margin: 10px 0 16px; letter-spacing: var(--tracking-tight); font-family: kaisei docal">{{ active.headline }}</h3>
+              <h3 style="font: var(--display-2); font-size: 28px; line-height: 1.1; color: var(--fg1); margin: 10px 0 16px; letter-spacing: var(--tracking-tight); font-family: var(--font-display)">{{ active.headline }}</h3>
               <p style="font: var(--body-lg); color: var(--fg2); margin: 0 0 24px; font-size: 18px">{{ active.overview }}</p>
               <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:22px">
                 <div style="flex:1;min-width:120px;background:var(--aj-blush);border-radius:var(--radius-md);padding:16px 18px"><div style="font:400 30px/1 var(--font-display);color:var(--aj-red)">{{ active.employees }}</div><div style="font:var(--caption);color:var(--fg2);letter-spacing:.08em;text-transform:uppercase;margin-top:7px">{{ T.cardEmployees }}</div></div>
@@ -271,7 +293,7 @@
           <sc-if value="{{ showCaps }}" hint-placeholder-val="{{ false }}">
             <div style="animation:ajup .34s var(--ease-out)">
               <div style="font:var(--overline);letter-spacing:var(--tracking-overline);text-transform:uppercase;color:var(--aj-red)">{{ T.capsOverline }}</div>
-              <h3 style="font: 400 24px/1.2 var(--font-display); letter-spacing: -.01em; color: var(--fg1); margin: 8px 0 20px; font-size: 28px; font-family: kaisei docal">{{ T.capsHeading }}</h3>
+              <h3 style="font: 400 24px/1.2 var(--font-display); letter-spacing: -.01em; color: var(--fg1); margin: 8px 0 20px; font-size: 28px; font-family: var(--font-display)">{{ T.capsHeading }}</h3>
               <div style="display:flex;flex-direction:column;gap:0;border-bottom:1px solid var(--border)">
                 <sc-for list="{{ active.capabilities }}" as="cap" hint-placeholder-count="5">
                   <div style="border-top:1px solid var(--border);background:none">
@@ -298,7 +320,7 @@
           <sc-if value="{{ showTour }}" hint-placeholder-val="{{ false }}">
             <div style="animation:ajup .34s var(--ease-out)">
               <div style="font:var(--overline);letter-spacing:var(--tracking-overline);text-transform:uppercase;color:var(--aj-red)">{{ T.tourOverline }}</div>
-              <h3 style="font: var(--h2); color: var(--fg1); margin: 8px 0 18px; font-size: 28px; font-weight: 400; font-family: kaisei docal">{{ T.tourHeading }}</h3>
+              <h3 style="font: var(--h2); color: var(--fg1); margin: 8px 0 18px; font-size: 28px; font-weight: 400; font-family: var(--font-display)">{{ T.tourHeading }}</h3>
               <div style="position:relative;width:100%;padding-top:56.25%;border-radius:var(--radius-md);overflow:hidden;background:#000;box-shadow:var(--shadow-md)">
                 <sc-if value="{{ active.isFileVideo }}" hint-placeholder-val="{{ false }}">
                   <video ref="{{ tourVideoRef }}" src="{{ active.videoUrl }}" controls="controls" playsinline="playsinline" style="position:absolute;inset:0;width:100%;height:100%;border:0;background:#000"></video>
@@ -315,7 +337,7 @@
             <div style="animation:ajup .34s var(--ease-out)">
               <div>
                   <div style="font:var(--overline);letter-spacing:var(--tracking-overline);text-transform:uppercase;color:var(--aj-red)">{{ T.connectOverline }}</div>
-                  <h3 style="font: var(--display-2); font-size: 28px; line-height: 1.12; color: var(--fg1); margin: 10px 0 8px; letter-spacing: var(--tracking-tight); font-family: kaisei docal">{{ active.contactHeadline }}</h3>
+                  <h3 style="font: var(--display-2); font-size: 28px; line-height: 1.12; color: var(--fg1); margin: 10px 0 8px; letter-spacing: var(--tracking-tight); font-family: var(--font-display)">{{ active.contactHeadline }}</h3>
                   <p style="font:var(--body-sm);color:var(--fg2);margin:0 0 22px">{{ T.connectIntro }}</p>
                   <!-- HubSpot form. In the CMS this region is the shortcode:
                        hubspot type="form" portal="50081784" id="5ea1edad-5848-4b1f-afc4-cae890083d55"
@@ -403,6 +425,12 @@ class Component extends DCLogic {
       clusterLabel:'Japan · {n} services', servicesHere:'{n} services here',
       servicesAtLocation:'Services at this location',
     };
+    // Hard-coded copy that always wins over ui-strings.csv.
+    this.UI_FIXED = { ja: {
+      overline:'当社のグローバルネットワーク',
+      heading:'専門的なノウハウと\nイノベーション',
+      body:'難問を解決し、可能性を広げ、斬新かつ複雑な科学を、持続可能かつ大スケールに、製造可能な現実へと変えていく。',
+    } };
     this.uiStrings = null;   // {key: {en, ja, es, de, nl, fr, zh, ko}} once ui-strings.csv loads
 
     // ---- deep linking -----------------------------------------------------
@@ -776,7 +804,8 @@ class Component extends DCLogic {
   t(key, vars){
     const lang = this.state.lang || 'en';
     const row  = this.uiStrings && this.uiStrings[key];
-    let out = (row && row[lang]) || (row && row.en) || this.UI_EN[key] || key;
+    const fixed = this.UI_FIXED && this.UI_FIXED[lang] && this.UI_FIXED[lang][key];
+    let out = fixed || (row && row[lang]) || (row && row.en) || this.UI_EN[key] || key;
     if(vars) for(const k in vars) out = out.split('{'+k+'}').join(vars[k]);
     return out;
   }
@@ -856,7 +885,16 @@ class Component extends DCLogic {
     }
   }
 
+  syncDocLang(){
+    // drives the :root:lang() font swap for ja / zh / ko
+    try{
+      const code = ({zh:'zh-Hans'})[this.state.lang] || this.state.lang || 'en';
+      if(document.documentElement.lang !== code) document.documentElement.lang = code;
+    }catch(e){}
+  }
+
   componentDidMount(){
+    this.syncDocLang();
     window.addEventListener('resize', this.onResize);
     this.loadUIStrings();
     this.loadFacilityData(this.state.lang);
@@ -971,6 +1009,7 @@ class Component extends DCLogic {
   }
 
   componentDidUpdate(prev){
+    this.syncDocLang();
     if(this.ensureLoop) this.ensureLoop();
     // (re)mount the form whenever the connect tab opens, the facility changes,
     // or the visitor switches language
@@ -1365,7 +1404,7 @@ class Component extends DCLogic {
     const warmMode = bg === 'Warm wash';
     const hlWrapStyle = 'padding:26px 24px 16px;flex:none;position:relative;overflow:hidden';
     const hlOverlineStyle = 'font:var(--overline);letter-spacing:var(--tracking-overline);text-transform:uppercase;color:var(--aj-red)';
-    const hlHeadingStyle = 'font:var(--h1);margin:8px 0 0;letter-spacing:var(--tracking-tight);font-size:40px;color:var(--fg1)';
+    const hlHeadingStyle = 'font:var(--h1);margin:8px 0 0;letter-spacing:var(--tracking-tight);font-size:40px;color:var(--fg1);white-space:pre-line';
     const hlBodyStyle = 'font:var(--body-sm);margin:12px 0 0;color:var(--fg2)';
     const hintStyle = 'position:absolute;left:24px;bottom:24px;z-index:4;pointer-events:none;font:var(--overline);letter-spacing:.14em;text-transform:uppercase;color:'+(redMode?'rgba(255,255,255,.95)':'var(--fg3)');
     const T = this.strings();
@@ -1451,6 +1490,9 @@ class Component extends DCLogic {
       tourVideoRef:(el)=>{ this.tourVideoEl=el; }, onTourFull:this.onTourFull,
       storyTabs, showNext, nextLabel,
       stepLabel: this.t('step', {n:stepPos+1, total:steps.length}),
+      // Language picker hidden for now; set to true to show it again.
+      // Weglot auto-detection still sets the map language.
+      showLangPicker: false,
       T, langs, activeLangLabel, langOpen: s.langOpen, onToggleLang: this.onToggleLang,
       thanksBody: this.t('thanksBody', {city: active ? String(active.city||'').split('\n')[0] : ''}),
       overlayStyle, panelStyle,
